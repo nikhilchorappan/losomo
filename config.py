@@ -2,7 +2,7 @@
 
 
 
-losomo_path = "/home/nikhcc/losomo"
+losomo_path = "/home/nikhil/myproject/spoon"
 
 
 ###### default settings #########

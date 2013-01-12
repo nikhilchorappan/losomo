@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from flask import *
-from cache1 import *
+import losodb
 from flask import request
 
 
