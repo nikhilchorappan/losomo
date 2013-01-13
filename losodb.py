@@ -150,15 +150,25 @@ class losoDB():
 		return True 
 	return False
 		 
-     
+  def getuser(self,username):
+	 if username == "*" :
+		data = self.query(" select * from user") 
+	 else :    
+		data = self.query(" select * from user where username = '" + username + "'")
+	 return data.fetchall()
+	  
+	   
   
 if __name__ == "__main__":
-   db = losoDB()
-   #db.query(''' insert into user values ("nikhil","nikhil","nikhil","nikhcc@gmail.com",0) ''')
+  db = losoDB()
+  print db.getuser("nikhil")
+  # db.query(''' insert into user values ("sebin","sebin","sebin","sebin7@gmail.com",0) ''')
+ 
    #c= db.query( ''' select * from user ''') 
    #for row in c :
    #  print row
-   if( db.userauthentication("nikhil","nikhil") ):
-	   print " true "
-   else :
-	   print " false"
+   #if( db.userauthentication("nikhil","nikhil") ):
+	#   print " true "
+   #else :
+	#   print " false"
+
