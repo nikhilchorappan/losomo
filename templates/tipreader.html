@@ -1,0 +1,96 @@
+
+<!doctype html>
+
+<title>Hello from Losomo </title>
+
+
+
+{% if name %}
+<h1> hello {{ name }}!</h1>
+{% else %}
+<h1>invalid user </h1>
+{% endif %}
+
+
+{% if name %}
+
+<form name="input" action="http://127.0.0.1:5000/home" method="POST">
+Tip: <input type="textbox" name="body"><br>
+Tags: <input type="text" name="taglist">
+<input type="submit" value="Submit">
+
+<input type ="text" name= "username" value ={{name}} > 
+<input type ="text" name= "latitude" >
+<input type ="text" name= "longitude" >	
+</form>
+
+{% endif %}
+
+
+<body onload="getLocation()">
+
+<body>
+<p id="demo"></p>
+</body>
+
+
+
+<body>
+<script>
+var x=document.getElementById("demo");
+
+function initForm(oForm, element_name, init_txt) 
+{
+	frmElement = oForm.elements[element_name];
+	frmElement.value = init_txt;
+}
+
+function getLocation()
+  {
+   //initForm(document.forms[0], 'username', "Loo");
+  if (navigator.geolocation)
+    {
+    navigator.geolocation.getCurrentPosition(showPosition,showError);
+    }
+  else{x.innerHTML="Geolocation is not supported by this browser.";}
+  }
+
+function showPosition(position)
+  {
+  initForm(document.forms[0], 'latitude', position.coords.latitude);
+  initForm(document.forms[0], 'longitude', position.coords.longitude);
+  initForm(document.forms[0], 'username', {{name}});
+  }
+
+function showError(error)
+  {
+  switch(error.code) 
+    {
+    case error.PERMISSION_DENIED:
+      x.innerHTML="User denied the request for Geolocation."
+      break;
+    case error.POSITION_UNAVAILABLE:
+      x.innerHTML="Location information is unavailable."
+      break;
+    case error.TIMEOUT:
+      x.innerHTML="The request to get user location timed out."
+      break;
+    case error.UNKNOWN_ERROR:
+      x.innerHTML="An unknown error occurred."
+      break;
+    }
+  }
+</script>
+</body>
+
+
+
+
+
+
+
+
+
+
+
+</html>

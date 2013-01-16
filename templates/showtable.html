@@ -1,0 +1,15 @@
+<!doctype html>
+
+<html>
+{% block body %}
+  <ul>
+  {% for row in table %}
+      {% for atribute in row %}
+    	<body> {{ atribute }}</body>
+      {% endfor %}
+      <br> <br>
+  {% endfor%}
+  </ul>
+{% endblock %}
+
+</html>
