@@ -40,7 +40,7 @@ class losoDB():
 		
 			CREATE TABLE tweets 
 				(
-				tweetid integer primary key, 
+				tweetid integer primary key autoincrement, 
 				body text, 
 			    latitude real not null,
 				longitude real not null, 
@@ -53,9 +53,9 @@ class losoDB():
 			self.cursor.execute('''
 			CREATE TABLE tag 
 				(  
-				tagid integer,
-			    tagname text,
-				PRIMARY KEY(tagname,tagid)
+				tagid integer primary key autoincrement,
+			    tagname text unique
+				
 			     )            ''' )
 	
 			self.cursor.execute('''
@@ -111,24 +111,33 @@ class losoDB():
 	cursor.execute(" insert into user values (?,?,?,?,?)",values)    
 	self.connection.commit()
 
-  def gettagid(self,tag)
+  def gettagid(self,tag):
 	tagid = self.query(" select tagid from tag where tagname = " + tag)
 	try: 
 		return tagid[0][0]
 	except IndexError :
-		self.query(" insert into tag values ( tagindex.NEXT ," + tag +")" )
+		self.query(" insert into tag values ( " + tag +")" )
+
+   
+  def gettweetid(self,values):
+	tweetid = self.query(''' select tweetid from tweet where 
+	                     body = value[0] and latitude = value[1] and
+	                     longitude = value[2] and timestamp = value[3] and
+	                     username =  value[4]''')
+	return tweetid[0][0]
 
   def addtip(self,username,body,latitude,longitude,timestamp,taglist):
 	cursor = self.connection.cursor()
-	values = (body,laitude,longitude,timestamp,username,"tip") 
+	values = (body,latitude,longitude,timestamp,username,"tip") 
 	cursor.execute(''' insert into tweets 
-						values (tweetindex.NEXT,?,?,?,?)''',values)
+						values (?,?,?,?,?,?)''',values)
 	self.connection.commit()
+	tweetid = self.gettweetid(values)
 	
 	for tag in taglist:
 		tagid = self.gettagid(tag)
 		cursor.execute(''' insert into tagtiprelation 
-			values (?,tweetindex.current,"tip")''',tagid)							    
+			values (?,?,"tip")''',tagid,tweetid)							    
 	self.connection.commit()	
 	   
 	   

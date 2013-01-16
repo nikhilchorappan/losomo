@@ -34,6 +34,24 @@ def signup():
 		return render_template('login.html',error = None) 
 							 
 
+
+@app.route('/tipreader', methods=['POST','GET'])
+
+def tipreader():
+	 
+	if request.method == 'POST':
+		db = losoDB()
+		taglist = request.form['taglist'].rsplit(' ')
+		db.addtip( request.form['username'], request.form['body'],
+						request.form['latitude'],request.form['longitude'],
+						0, taglist)													    
+		return render_template('tipreader.html', name = request.form['username'] ) 
+							 
+
+
+
+
+
 @app.route('/admin/table/<table_name>')
 
 def showtable(table_name):
