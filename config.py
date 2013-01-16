@@ -2,10 +2,10 @@
 
 
 
-losomo_path = "/home/nikhil/myproject/spoon"
+losomo_path = "/home/nikhil/myproject/losomo"
 
 
-###### default settings #########
+###### default settings #########l
 
 default_DBpath = losomo_path + "/data/DB"
 default_photo_path = losomo_path +"/data/user/photo"
