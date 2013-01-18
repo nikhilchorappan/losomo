@@ -1,53 +1,76 @@
-
 <!doctype html>
 
-<title>Hello from Losomo </title>
+<title>Homepage</title>
 
+<style>
+h1
+{
+color:black;
+text-align:left;
+font-type=times new roman;
+}
+h2
+{
+color:black;
+text-align:right;
+font-type=times new roman;
+}
+h3
+{
+color:black;
+text-align:right;
+font-type=times new roman;
+}
+body
+{
+background-color:ffffff:
+}
+div
+{
+background-color:#9acd32;
+}
+</style>
 
-
+<body>
+<div>
 {% if name %}
-<h1> hello {{ name }}!</h1>
-{% else %}
-<h1>invalid user </h1>
+<h3>{{ name }}</h3>
+{% endif %}
+<h1>LOSOMO</h1>
+
+</div>
+{% if name %}
+<h4> hello {{ name }}!</h4>
 {% endif %}
 
 
-{% if name %}
 
-<form name="input" action="http://127.0.0.1:5000/home" method="POST">
-Tip: <input type="textbox" name="body"><br>
-Tags: <input type="text" name="taglist">
-<input type="submit" value="Submit">
-
-<input type ="hidden" name= "username" value ={{name}} > 
+<form name="input" action="http://127.0.0.1:5000/" method="POST">
+<input type="submit" value="Search"> 
+<input type ="hidden" name= "user" >
 <input type ="hidden" name= "latitude" >
 <input type ="hidden" name= "longitude" >	
+<a href="http://127.0.0.1:5000/tipreader">Tip </a>
+
 </form>
-
-{% endif %}
-
 
 <body onload="getLocation()">
 
-<body>
+
 <p id="demo"></p>
-</body>
 
-
-
-<body>
 <script>
 var x=document.getElementById("demo");
 
-function initForm(oForm, element_name, init_txt) 
-{
+function initForm(oForm, element_name, init_txt) {
 	frmElement = oForm.elements[element_name];
 	frmElement.value = init_txt;
 }
 
+
+
 function getLocation()
   {
-   //initForm(document.forms[0], 'username', "Loo");
   if (navigator.geolocation)
     {
     navigator.geolocation.getCurrentPosition(showPosition,showError);
@@ -57,9 +80,14 @@ function getLocation()
 
 function showPosition(position)
   {
+  var latlon=position.coords.latitude+","+position.coords.longitude;
+   
+  var img_url="http://maps.googleapis.com/maps/api/staticmap?center="
+  +latlon+"&zoom=14&size=400x300&sensor=false";
+  document.getElementById("mapholder").innerHTML="<img src='"+img_url+"'>";
   initForm(document.forms[0], 'latitude', position.coords.latitude);
   initForm(document.forms[0], 'longitude', position.coords.longitude);
-  initForm(document.forms[0], 'username', {{name}});
+  initForm(document.forms[0], 'user', 'Nikhil'); 
   }
 
 function showError(error)
@@ -81,15 +109,20 @@ function showError(error)
     }
   }
 </script>
-</body>
 
 
 
 
-
-
-
-
+{% block body %}
+  <ul>
+  {% for row in table %}
+      {% for atribute in row %}
+    	<body> {{ atribute }}</body>
+      {% endfor %}
+      <br> <br>
+  {% endfor%}
+  </ul>
+{% endblock %}
 
 
 

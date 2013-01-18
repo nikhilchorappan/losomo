@@ -1,0 +1,129 @@
+<!doctype html>
+
+<title>Homepage</title>
+
+<style>
+h1
+{
+color:black;
+text-align:left;
+font-type=times new roman;
+}
+h2
+{
+color:black;
+text-align:right;
+font-type=times new roman;
+}
+h3
+{
+color:black;
+text-align:right;
+font-type=times new roman;
+}
+body
+{
+background-color:ffffff:
+}
+div
+{
+background-color:#9acd32;
+}
+</style>
+
+<body>
+<div>
+{% if name %}
+<h3>{{ name }}</h3>
+{% endif %}
+<h1>LOSOMO</h1>
+
+</div>
+{% if name %}
+<h4> hello {{ name }}!</h4>
+{% endif %}
+
+
+
+<form name="input" action="http://127.0.0.1:5000/" method="POST">
+<input type="submit" value="Search"> 
+<input type ="hidden" name= "user" >
+<input type ="hidden" name= "latitude" >
+<input type ="hidden" name= "longitude" >	
+<a href="http://127.0.0.1:5000/tipreader"><input type="submit" value="Tip"> </a>
+
+</form>
+
+<body onload="getLocation()">
+
+
+<p id="demo"></p>
+
+<script>
+var x=document.getElementById("demo");
+
+function initForm(oForm, element_name, init_txt) {
+	frmElement = oForm.elements[element_name];
+	frmElement.value = init_txt;
+}
+
+
+
+function getLocation()
+  {
+  if (navigator.geolocation)
+    {
+    navigator.geolocation.getCurrentPosition(showPosition,showError);
+    }
+  else{x.innerHTML="Geolocation is not supported by this browser.";}
+  }
+
+function showPosition(position)
+  {
+  var latlon=position.coords.latitude+","+position.coords.longitude;
+   
+  var img_url="http://maps.googleapis.com/maps/api/staticmap?center="
+  +latlon+"&zoom=14&size=400x300&sensor=false";
+  document.getElementById("mapholder").innerHTML="<img src='"+img_url+"'>";
+  initForm(document.forms[0], 'latitude', position.coords.latitude);
+  initForm(document.forms[0], 'longitude', position.coords.longitude);
+  initForm(document.forms[0], 'user', 'Nikhil'); 
+  }
+
+function showError(error)
+  {
+  switch(error.code) 
+    {
+    case error.PERMISSION_DENIED:
+      x.innerHTML="User denied the request for Geolocation."
+      break;
+    case error.POSITION_UNAVAILABLE:
+      x.innerHTML="Location information is unavailable."
+      break;
+    case error.TIMEOUT:
+      x.innerHTML="The request to get user location timed out."
+      break;
+    case error.UNKNOWN_ERROR:
+      x.innerHTML="An unknown error occurred."
+      break;
+    }
+  }
+</script>
+
+
+
+
+{% block body %}
+  <ul>
+  {% for row in table %}
+      {% for atribute in row %}
+    	<body> {{ atribute }}</body>
+      {% endfor %}
+      <br> <br>
+  {% endfor%}
+  </ul>
+{% endblock %}
+
+
+
+</html>

@@ -57,11 +57,10 @@ def search_tweet(username,search,lattitude,longitude):
 	return render_template('showtable.html',table = data)
 
 
-@app.route('/tipreader', methods=['GET', 'POST'])
+@app.route('/tip', methods=['GET', 'POST'])
 def search():
 	if request.method == 'GET':
 		return render_template('tipreader.html',name = username)
-	
 	
 
 if __name__ == '__main__':

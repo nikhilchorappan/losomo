@@ -19,9 +19,9 @@ Tip: <input type="textbox" name="body"><br>
 Tags: <input type="text" name="taglist">
 <input type="submit" value="Submit">
 
-<input type ="hidden" name= "username" value ={{name}} > 
-<input type ="hidden" name= "latitude" >
-<input type ="hidden" name= "longitude" >	
+<input type ="text" name= "username" value ={{name}} > 
+<input type ="text" name= "latitude" >
+<input type ="text" name= "longitude" >	
 </form>
 
 {% endif %}
