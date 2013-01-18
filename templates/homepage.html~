@@ -50,7 +50,7 @@ background-color:#9acd32;
 <input type ="hidden" name= "user" >
 <input type ="hidden" name= "latitude" >
 <input type ="hidden" name= "longitude" >	
-<a href="http://127.0.0.1:5000/tipreader"><input type="submit" value="Tip"> </a>
+<a href="http://127.0.0.1:5000/tipreader">Tip </a>
 
 </form>
 
