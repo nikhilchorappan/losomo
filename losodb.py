@@ -30,9 +30,9 @@ class losoDB():
 			CREATE TABLE user 
 				(  
 			    username text primary key,
-				password text,
-				photourl text,
-				email text,
+				password text not null,
+				photourl text not null,
+				email text not null,
 				log integer
 				)		      ''' )       
         
@@ -41,10 +41,10 @@ class losoDB():
 			CREATE TABLE tweets 
 				(
 				tweetid integer primary key autoincrement, 
-				body text, 
-			    latitude real not null,
+				body text not null, 
+			        latitude real not null,
 				longitude real not null, 
-                timestamp integer not null,				
+                                timestamp integer not null,				
 				username text not null,
 				type text,
 				FOREIGN KEY(username) REFERENCES user(username)
@@ -54,7 +54,7 @@ class losoDB():
 			CREATE TABLE tag 
 				(  
 				tagid integer primary key autoincrement,
-			    tagname text unique
+			    tagname text unique not null
 				
 			     )            ''' )
 	
@@ -84,14 +84,18 @@ class losoDB():
           raise IOError(' Unable to open a database file at %s'%DBpath) 
           
 
-  def query(self,query):
-    cursor = self.connection.cursor() 
-    cursor.execute(query)    
+  def query(self,query,values = None ):
+    cursor = self.connection.cursor()
+    if values :
+		cursor.execute(query,values)		
+    else :
+		cursor.execute(query)    
     self.connection.commit()
     return cursor.fetchall()
+ 
   
   def authenticate( self, username , password):
-	realpassword = self.query(" select password from user where username = '" + username + "'")
+	realpassword = self.query(" select password from user where username = ? ",[username])
 	try:
 		if realpassword[0][0] == password :  
 			return True
@@ -100,53 +104,61 @@ class losoDB():
 	return False
 		 
   def getuser(self,username):    
-	 return self.query(" select * from user where username = '" + username + "'")	 
+	 return self.query(" select * from user where username = ?",[username])	 
 	 
   def gettable(self,tablename):
-	 return  self.query(" select * from " + tablename  ) 
+	 return  self.query(" select * from " + tablename ) 
 		 	 	  
   def adduser(self,username,password,email):
-	cursor = self.connection.cursor()
 	values = ( username, password, username+ ".jpg", email,0) 
-	cursor.execute(" insert into user values (?,?,?,?,?)",values)    
-	self.connection.commit()
+	self.query(" insert into user values (?,?,?,?,?)",values)    
 
   def gettagid(self,tag):
-	tagid = self.query(" select tagid from tag where tagname = " + tag)
+	tagid = self.query(" select tagid from tag where tagname = ?",[tag])
 	try: 
 		return tagid[0][0]
 	except IndexError :
-		self.query(" insert into tag values ( " + tag +")" )
+		self.query(" insert into tag ( tagname ) values ( ?)",[tag])
+		tagid = self.query(" select tagid from tag where tagname = ?",[tag])
+		return tagid[0][0]
 
    
   def gettweetid(self,values):
-	tweetid = self.query(''' select tweetid from tweet where 
-	                     body = value[0] and latitude = value[1] and
-	                     longitude = value[2] and timestamp = value[3] and
-	                     username =  value[4]''')
+	tweetid = self.query(''' select tweetid from tweets where 
+	                     body = ? and latitude = ? and
+	                     longitude = ? and timestamp = ? and
+	                     username =  ? and type = ? ''',values)
 	return tweetid[0][0]
 
   def addtip(self,username,body,latitude,longitude,timestamp,taglist):
-	cursor = self.connection.cursor()
 	values = (body,latitude,longitude,timestamp,username,"tip") 
-	cursor.execute(''' insert into tweets 
+	self.query(''' insert into tweets (  body , latitude, longitude ,
+						timestamp , username , type)
 						values (?,?,?,?,?,?)''',values)
-	self.connection.commit()
 	tweetid = self.gettweetid(values)
-	
 	for tag in taglist:
 		tagid = self.gettagid(tag)
-		cursor.execute(''' insert into tagtiprelation 
-			values (?,?,"tip")''',tagid,tweetid)							    
+		self.query(''' insert into tagtiprelation 
+			values (?,?,"tip")''',(tagid,tweetid))							    
 	self.connection.commit()	
 	   
-	   
-	   
-	   
-	     
+  def search(self,taglist = None ,username = None,latitude = None,longitude = None):
+    tweetlist = []
+    for tag in taglist:
+      tweetlist.append( self.query( '''
+					select username , body from tweets ,tagtiprelation ,tag
+					where tweets.tweetid = tagtiprelation.tweetid and
+				    tag.tagid = tagtiprelation.tagid 
+				    and tag.tagname  = ? ''',[tag]) )
+    return tweetlist	
+    
+  def gethomedata(self,taglist = None ,username = None,latitude = None,longitude = None):
+	  return self.query("select username, body from tweets")   
+	   	     
 if __name__ == "__main__":
   db = losoDB()
-  print db.getuser("*")
+  print db.search(["bus"])
+  #print db.getuser("nikhil")
   # db.query(''' insert into user values ("sebin","sebin","sebin","sebin7@gmail.com",0) ''')
  
    #c= db.query( ''' select * from user ''') 

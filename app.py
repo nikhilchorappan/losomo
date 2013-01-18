@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 from flask import *
 from losodb import *
-from flask import request
 
 app = Flask(__name__)
 
 @app.route('/', methods=['POST','GET'])
 
-def log():
+def login():
 	if request.method == 'GET':
 		return  render_template('login.html',error = None)    
 	else:
@@ -33,8 +32,6 @@ def signup():
 						request.form['password'],request.form['email'])													    
 		return render_template('login.html',error = None) 
 							 
-
-
 @app.route('/tipreader', methods=['POST','GET'])
 
 def tipreader():
@@ -46,20 +43,13 @@ def tipreader():
 						request.form['latitude'],request.form['longitude'],
 						0, taglist)													    
 		return render_template('tipreader.html', name = request.form['username'] ) 
-							 
-
-
-
-
-
+									 
 @app.route('/admin/table/<table_name>')
 
 def showtable(table_name):
 	db = losoDB()
 	data = db.gettable(table_name)							    
 	return render_template('showtable.html',table = data) 
-
-
 
 if __name__ == '__main__':
 	app.run(debug = True)
