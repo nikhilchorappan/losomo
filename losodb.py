@@ -111,7 +111,7 @@ class losoDB():
 	cursor.execute(" insert into user values (?,?,?,?,?)",values)    
 	self.connection.commit()
 
-  def gettagid(self,tag)
+  def gettagid(self,tag):
 	tagid = self.query(" select tagid from tag where tagname = " + tag)
 	try: 
 		return tagid[0][0]

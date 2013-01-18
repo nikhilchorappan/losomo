@@ -2,7 +2,7 @@
 
 
 
-losomo_path = "/home/nikhil/myproject/losomo"
+losomo_path = "/home/usert/flask/losomo"
 
 
 ###### default settings #########l

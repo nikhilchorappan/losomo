@@ -16,8 +16,11 @@ def log():
 
 def valid_login(username,password):
    db = losoDB()
-   if db.authenticate(username,password) :
-	  return render_template('tipreader.html',name = username)
+   if db.authenticate(username,password):
+	db=losoDB()
+	data=db.gettable('user')
+	return render_template('homepage.html',name = username,table = data)
+	  
    else :
 	  return render_template('login.html',error = " Authentication faild" )
 
@@ -41,6 +44,27 @@ def showtable(table_name):
 	data = db.gettable(table_name)							    
 	return render_template('showtable.html',table = data) 
 
+
+@app.route('/search')
+def search():
+	if request.method=='GET':
+		return render_template('search.html')
+
+	else:
+		return search_tweet(request.form['user'],request.form['search'],request.form['latitude'],request.form['longitude'])
+
+
+def search_tweet(username,search,lattitude,longitude):
+	db = losoDB()
+	data = db.search(search,username,lattitude,longitude)
+	return render_template('showtable.html',table = data)
+
+@app.route('/tipreader')
+def search():
+	if request.method=='GET':
+		return render_template('homepage.html',table = data)
+
+	
 
 
 if __name__ == '__main__':
