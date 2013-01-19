@@ -43,10 +43,10 @@ def tipreader(username):
 		db = losoDB()
 		taglist = request.form['taglist'].rsplit(' ')
 		db.addtip( request.form['username'], request.form['body'],
-		request.form['latitude'],request.form['longitude'],
-	        0, taglist)			
+		 request.form['latitude'],request.form['longitude'],
+	        0, taglist)
+	        return render_template('homepage.html', name = username)     			
  	else:										    
-
 		return render_template('tipreader.html', name = username) 
 									 
 @app.route('/admin/table/<table_name>')
