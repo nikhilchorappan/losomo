@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 from flask import *
 from losodb import *
-from flask import request
 
 app = Flask(__name__)
 
 @app.route('/', methods=['POST','GET'])
 
-def log():
+def login():
 	if request.method == 'GET':
 		return  render_template('login.html',error = None)    
 	else:
@@ -16,11 +15,10 @@ def log():
 
 def valid_login(username,password):
    db = losoDB()
-   if db.authenticate(username,password):
-	db=losoDB()
-	data=db.gettable('user')
-	return render_template('homepage.html',name = username,table = data)
-	  
+   if db.authenticate(username,password) :
+	  db = losoDB()
+	  data = db.gettable('user')	
+	  return render_template('homepage.html',name = username, table = data)
    else :
 	  return render_template('login.html',error = " Authentication faild" )
 
@@ -36,7 +34,18 @@ def signup():
 						request.form['password'],request.form['email'])													    
 		return render_template('login.html',error = None) 
 							 
+@app.route('/tipreader', methods=['POST','GET'])
 
+def tipreader():
+	 
+	if request.method == 'POST':
+		db = losoDB()
+		taglist = request.form['taglist'].rsplit(' ')
+		db.addtip( request.form['username'], request.form['body'],
+						request.form['latitude'],request.form['longitude'],
+						0, taglist)													    
+		return render_template('tipreader.html', name = request.form['username'] ) 
+									 
 @app.route('/admin/table/<table_name>')
 
 def showtable(table_name):
@@ -45,27 +54,22 @@ def showtable(table_name):
 	return render_template('showtable.html',table = data) 
 
 
-@app.route('/search')
+@app.route('/search', methods=['GET', 'POST'])
 def search():
-	if request.method=='GET':
+	if request.method == 'GET':
 		return render_template('search.html')
-
 	else:
-		return search_tweet(request.form['user'],request.form['search'],request.form['latitude'],request.form['longitude'])
-
-
+		return search_tweet( request.form['user'], request.form['search'], request.form['latitude'], request.form['longitude'])
+		
 def search_tweet(username,search,lattitude,longitude):
 	db = losoDB()
 	data = db.search(search,username,lattitude,longitude)
 	return render_template('showtable.html',table = data)
 
-@app.route('/tipreader')
-def search():
-	if request.method=='GET':
-		return render_template('homepage.html',table = data)
+
 
 	
-
+	
 
 if __name__ == '__main__':
 	app.run(debug = True)
