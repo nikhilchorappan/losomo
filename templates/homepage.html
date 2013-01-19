@@ -45,13 +45,12 @@ background-color:#9acd32;
 
 
 
-<form name="input" action="http://127.0.0.1:5000/search" method="POST">
+<form name="input" action="http://127.0.0.1:5000/search" method="GET">
 <input type="submit" value="Search"> 
 <input type ="hidden" name= "user" >
 <input type ="hidden" name= "latitude" >
 <input type ="hidden" name= "longitude" >	
-<a href="http://127.0.0.1:5000/tipreader">Tip </a>
-
+<a href="http://127.0.0.1:5000/tipreader/{{name}}">Tip </a>
 </form>
 
 <body onload="getLocation()">

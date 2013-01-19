@@ -34,17 +34,18 @@ def signup():
 						request.form['password'],request.form['email'])													    
 		return render_template('login.html',error = None) 
 							 
-@app.route('/tipreader', methods=['POST','GET'])
+@app.route('/tipreader/<username>', methods=['POST','GET'])
 
-def tipreader():
+def tipreader(username):
 	 
 	if request.method == 'POST':
 		db = losoDB()
 		taglist = request.form['taglist'].rsplit(' ')
 		db.addtip( request.form['username'], request.form['body'],
 						request.form['latitude'],request.form['longitude'],
-						0, taglist)													    
-		return render_template('tipreader.html', name = request.form['username'] ) 
+						0, taglist)			
+ 	else:										    
+		return render_template('tipreader.html', name = username) 
 									 
 @app.route('/admin/table/<table_name>')
 
@@ -60,17 +61,15 @@ def search():
 		return render_template('search.html')
 	else:
 		return search_tweet( request.form['user'], request.form['search'], request.form['latitude'], request.form['longitude'])
+
 		
 def search_tweet(username,search,lattitude,longitude):
 	db = losoDB()
-	data = db.searchdb(username,search,lattitude,longitude)
+	data = db.search(search,username,lattitude,longitude)
 	return render_template('showtable.html',table = data)
 
 
-@app.route('/tipreader', methods=['GET', 'POST'])
-def search():
-	if request.method == 'GET':
-		return render_template('tipreader.html',name = username)
+
 	
 	
 
