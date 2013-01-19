@@ -1,32 +1,35 @@
-<!doctype html
+
+<!doctype html>
 <title>Homepage</title>
-<head>
+
 <style>
 h1
 {
 color:black;
 text-align:left;
-font-type=times new roman
+font-type=times new roman;
 }
-body
+h2
 {
-background-color:ffffff
-}
-div
-{
-background-color:#9ACD32;
+color:black;
+text-align:left;
+font-type=times new roman;
 }
 h3
 {
-text-color:black;
+color:black;
 text-align:right;
+font-type=times new roman;
 }
-
-
+body
+{
+background-color:ffffff:
+}
+div
+{
+background-color:#9acd32;
+}
 </style>
-
-</head>
-
 <body>
 <div>
 {% if name %}
@@ -40,14 +43,14 @@ text-align:right;
 {% endif %}
 
 
-<form name="input" action="http://127.0.0.1:5000/search" method="POST">
+<form name="input" action="http://127.0.0.1:5000/search" method="GET">
 <input type="submit" value="Search"> 
 <input type ="hidden" name= "user" >
 <input type ="hidden" name= "latitude" >
-<input type ="hidden" name= "longitude" >	
-</form>
+<input type ="hidden" name= "longitude" >
 
-<a href="http://127.0.0.1:5000/tipreader">tip</a>
+<input type=button onClick="parent.location='http://127.0.0.1:5000/tipreader/{{name}}'" value='Tip'>
+</form>
 <body onload="getLocation()">
 
 
@@ -115,11 +118,6 @@ function showError(error)
   </ul>
 {% endblock %}
 </body>
-
-
-
-
-
 
 
 </html>

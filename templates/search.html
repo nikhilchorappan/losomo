@@ -1,12 +1,15 @@
 
 <!doctype html>
 
+<title>Search page</title>
+
 <form name="input" action="http://127.0.0.1:5000/search" method="POST">
-Search for: <input type="text" name="search"><br>
+Search for : <input type="text" name="search">
 <input type="submit" value="Submit"> 
+<input type ="hidden" name= "user" >
 <input type ="hidden" name= "latitude" >
-<input type ="hidden" name= "longitude" >
-<input type="hidden" name="username">	
+<input type ="hidden" name= "longitude" >	
+
 </form>
 
 
@@ -70,13 +73,11 @@ function showError(error)
 </body>
 
 
-
 {% if name %}
 <h1> hello {{ name }}!</h1>
 {% else %}
 <h1>invalid user </h1>
 {% endif %}
-
 
 
 

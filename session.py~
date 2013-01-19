@@ -42,7 +42,7 @@ def sign_in():
 def search():
 	if request.method == 'POST':
 		return redirect(url_for('index'))
-	return render_template('search.html')		
+	else render_template('search.html')		
 		
 
 @app.route('/logout')
