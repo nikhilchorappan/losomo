@@ -114,7 +114,6 @@ class losoDB():
 	self.query(" insert into user values (?,?,?,?,?)",values)    
 
   def gettagid(self,tag):
-	tagid = self.query(" select tagid from tag where tagname = " + tag)
 	tagid = self.query(" select tagid from tag where tagname = ?",[tag])
 
 	try: 

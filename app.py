@@ -43,8 +43,10 @@ def tipreader(username):
 		db = losoDB()
 		taglist = request.form['taglist'].rsplit(' ')
 		db.addtip( request.form['username'], request.form['body'],
-						request.form['latitude'],request.form['longitude'],0, taglist)	
-	else:											    
+		request.form['latitude'],request.form['longitude'],
+	        0, taglist)			
+ 	else:										    
+
 		return render_template('tipreader.html', name = username) 
 									 
 @app.route('/admin/table/<table_name>')
@@ -61,16 +63,12 @@ def search():
 		return render_template('search.html')
 	else:
 		return search_tweet( request.form['user'], request.form['search'], request.form['latitude'], request.form['longitude'])
+
 		
 def search_tweet(username,search,lattitude,longitude):
 	db = losoDB()
-
 	data = db.search(search,username,lattitude,longitude)
 	return render_template('showtable.html',table = data)
-
-
-
-
 
 
 	
