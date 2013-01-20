@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import os
 import sqlite3 
 from config import *
@@ -146,13 +145,11 @@ class losoDB():
   def search(self,taglist = None ,username = None,latitude = None,longitude = None):
     tweetlist = []
     for tag in taglist:
-      print tag+"tt"	
       tweetlist.append( self.query( '''
 					select username , body from tweets ,tagtiprelation ,tag
 					where tweets.tweetid = tagtiprelation.tweetid and
 				    tag.tagid = tagtiprelation.tagid 
 				    and tag.tagname  = ? ''',[tag]) )
-    print tweetlist
     return tweetlist	
     
   def gethomedata(self,taglist = None ,username = None,latitude = None,longitude = None):
@@ -161,14 +158,3 @@ class losoDB():
 if __name__ == "__main__":
   db = losoDB()
   print db.search(["bus"])
-  #print db.getuser("nikhil")
-  # db.query(''' insert into user values ("sebin","sebin","sebin","sebin7@gmail.com",0) ''')
- 
-   #c= db.query( ''' select * from user ''') 
-   #for row in c :
-   #  print row
-   #if( db.userauthentication("nikhil","nikhil") ):
-	#   print " true "
-   #else :
-	#   print " false"
-
