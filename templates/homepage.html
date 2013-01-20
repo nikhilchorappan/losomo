@@ -30,6 +30,7 @@ div
 background-color:#9acd32;
 }
 </style>
+
 <body>
 <div>
 {% if name %}
@@ -64,8 +65,6 @@ function initForm(oForm, element_name, init_txt) {
 	frmElement.value = init_txt;
 }
 
-
-
 function getLocation()
   {
   if (navigator.geolocation)
@@ -84,7 +83,7 @@ function showPosition(position)
   document.getElementById("mapholder").innerHTML="<img src='"+img_url+"'>";
   initForm(document.forms[0], 'latitude', position.coords.latitude);
   initForm(document.forms[0], 'longitude', position.coords.longitude);
-  initForm(document.forms[0], 'user', 'Nikhil'); 
+  initForm(document.forms[0], 'user', {{name}}); 
   }
 
 function showError(error)
