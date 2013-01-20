@@ -62,9 +62,11 @@ def search():
 		return search_tweet( request.form['user'], request.form['search'], request.form['latitude'], request.form['longitude'])
 
 		
-def search_tweet(username,search,lattitude,longitude):
+def search_tweet(username,keyword,lattitude,longitude):
+        keywordlist = keyword.rsplit(" ")
 	db = losoDB()
-	data = db.search(search,username,lattitude,longitude)
+	data = db.search(keywordlist,username,lattitude,longitude)
+	print data
 	return render_template('showtable.html',table = data)
 
 

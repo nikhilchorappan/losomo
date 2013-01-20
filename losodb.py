@@ -54,7 +54,7 @@ class losoDB():
 			CREATE TABLE tag 
 				(  
 				tagid integer primary key autoincrement,
-			    tagname text unique not null
+			        tagname text unique not null
 				
 			     )            ''' )
 	
@@ -146,11 +146,13 @@ class losoDB():
   def search(self,taglist = None ,username = None,latitude = None,longitude = None):
     tweetlist = []
     for tag in taglist:
+      print tag+"tt"	
       tweetlist.append( self.query( '''
 					select username , body from tweets ,tagtiprelation ,tag
 					where tweets.tweetid = tagtiprelation.tweetid and
 				    tag.tagid = tagtiprelation.tagid 
 				    and tag.tagname  = ? ''',[tag]) )
+    print tweetlist
     return tweetlist	
     
   def gethomedata(self,taglist = None ,username = None,latitude = None,longitude = None):
