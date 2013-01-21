@@ -57,7 +57,7 @@ def showtable(table_name):
 @app.route('/search', methods=['GET', 'POST'])
 def search():
 	if request.method == 'GET':
-		return render_template('search.html')
+		return render_template('search.html',name="tony")
 	else:
 		return search_tweet( request.form['user'], request.form['search'], request.form['latitude'], request.form['longitude'])
 
