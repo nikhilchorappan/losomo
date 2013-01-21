@@ -1,10 +1,68 @@
 
-<!doctype html>
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+<title>Tip reader</title>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript">
+  function getLocation() {
+    if (navigator.geolocation)
+      {
+       navigator.geolocation.getCurrentPosition(showPosition,showError);
+      }
+    else{document.getElementById('map_canvas').innerHTML="Geolocation is not supported by this browser.";}
+      }
 
-<title>Hello from Losomo </title>
+  function showPosition(position)
+   {
+    myLatlng = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+    var myOptions = {
+      zoom:17,
+      center: myLatlng,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    }
+    var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+    
+    var marker = new google.maps.Marker({
+        position: myLatlng, 
+        map: map,
+        draggable:true
+    });
+    google.maps.event.addListener(
+        marker,
+        'drag',
+        function() {
+            document.getElementById('latField').value = marker.position.lat();
+            document.getElementById('lngField').value = marker.position.lng();
+        }
+    );
+  }
 
+  function showError(error)
+    {
+     var x = document.getElementById('map_canvas');
+     switch(error.code) 
+      {
+       case error.PERMISSION_DENIED:
+        x.innerHTML="User denied the request for Geolocation."
+        break;
+       case error.POSITION_UNAVAILABLE:
+        x.innerHTML="Location information is unavailable."
+        break;
+       case error.TIMEOUT:
+        x.innerHTML="The request to get user location timed out."
+        break;
+       case error.UNKNOWN_ERROR:
+        x.innerHTML="An unknown error occurred."
+        break;
+      }
+    }
+</script>
+</head>
 
-
+<body onload="getLocation()">
 {% if name %}
 <h1> hello {{ name }}!</h1>
 {% else %}
@@ -20,77 +78,12 @@ Tags: <input type="text" name="taglist">
 <input type="submit" value="Submit">
 
 <input type ="hidden" name= "username" value ={{name}} > 
-<input type ="hidden" name= "latitude" >
-<input type ="hidden" name= "longitude" >	
+<input type="hidden" id="latField" value="" name="latitude"/>
+<input type="hidden" id="lngField" value="" name="longitude"/>	
 </form>
+<div id="map_canvas" style="width:500px;height:500px;"></div>
 
 {% endif %}
-
-
-<body onload="getLocation()">
-
-<body>
-<p id="demo"></p>
 </body>
-
-
-
-<body>
-<script>
-var x=document.getElementById("demo");
-
-function initForm(oForm, element_name, init_txt) 
-{
-	frmElement = oForm.elements[element_name];
-	frmElement.value = init_txt;
-}
-
-function getLocation()
-  {
-   //initForm(document.forms[0], 'username', "Loo");
-  if (navigator.geolocation)
-    {
-    navigator.geolocation.getCurrentPosition(showPosition,showError);
-    }
-  else{x.innerHTML="Geolocation is not supported by this browser.";}
-  }
-
-function showPosition(position)
-  {
-  initForm(document.forms[0], 'latitude', position.coords.latitude);
-  initForm(document.forms[0], 'longitude', position.coords.longitude);
-  initForm(document.forms[0], 'username', {{name}});
-  }
-
-function showError(error)
-  {
-  switch(error.code) 
-    {
-    case error.PERMISSION_DENIED:
-      x.innerHTML="User denied the request for Geolocation."
-      break;
-    case error.POSITION_UNAVAILABLE:
-      x.innerHTML="Location information is unavailable."
-      break;
-    case error.TIMEOUT:
-      x.innerHTML="The request to get user location timed out."
-      break;
-    case error.UNKNOWN_ERROR:
-      x.innerHTML="An unknown error occurred."
-      break;
-    }
-  }
-</script>
-</body>
-
-
-
-
-
-
-
-
-
-
-
 </html>
+
