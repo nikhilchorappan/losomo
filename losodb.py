@@ -146,14 +146,30 @@ class losoDB():
     tweetlist = []
     for tag in taglist:
       tweetlist.append( self.query( '''
-					select username , body from tweets ,tagtiprelation ,tag
+					select username , body ,tweets.tweetid from tweets ,tagtiprelation ,tag
 					where tweets.tweetid = tagtiprelation.tweetid and
 				    tag.tagid = tagtiprelation.tagid 
 				    and tag.tagname  = ? ''',[tag]) )
-    return tweetlist	
+    tweettaglist = []
+    for tweet in tweetlist[0]:
+      taglist = self.query('''select tagname from tag,tagtiprelation
+                                   where tag.tagid = tagtiprelation.tagid and 
+                                    tagtiprelation.tweetid = ?''',[tweet[-1]] )
+      tweettaglist.append(tuple(list( tweet[0:-1]) +taglist ))
+      
+    return tweettaglist	
     
   def gethomedata(self,taglist = None ,username = None,latitude = None,longitude = None):
-	  return self.query("select username, body from tweets")   
+    tweetlist  = self.query("select username, body,tweetid from tweets")
+    tweettaglist = []
+    for tweet in tweetlist :
+      taglist = self.query('''select tagname from tag,tagtiprelation
+                                   where tag.tagid = tagtiprelation.tagid and 
+                                    tagtiprelation.tweetid = ?''',[tweet[-1]] )    
+      tweettaglist.append(tuple(list( tweet[0:-1]) +taglist ))
+    return tweettaglist      
+            
+             
 	   	     
 if __name__ == "__main__":
   db = losoDB()
