@@ -155,8 +155,7 @@ class losoDB():
       taglist = self.query('''select tagname from tag,tagtiprelation
                                    where tag.tagid = tagtiprelation.tagid and 
                                     tagtiprelation.tweetid = ?''',[tweet[-1]] )
-      tweettaglist.append(tuple(list( tweet[0:-1]) +taglist ))
-      
+      tweettaglist.append(tuple(list( tweet[0:-1]) +taglist ))     
     return tweettaglist	
     
   def gethomedata(self,taglist = None ,username = None,latitude = None,longitude = None):

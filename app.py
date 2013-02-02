@@ -54,19 +54,18 @@ def showtable(table_name):
 	return render_template('showtable.html',table = data) 
 
 
-@app.route('/search', methods=['GET', 'POST'])
-def search():
+@app.route('/search/<username>', methods=['GET', 'POST'])
+def search(username):
 	if request.method == 'GET':
-		return render_template('search.html',name="tony")
+		return render_template('search.html',name=username)
 	else:
-		return search_tweet( request.form['user'], request.form['search'], request.form['latitude'], request.form['longitude'])
+		return search_tweet( request.form['username'], request.form['search'], request.form['latitude'], request.form['longitude'])
 
 		
 def search_tweet(username,keyword,lattitude,longitude):
         keywordlist = keyword.rsplit(" ")
 	db = losoDB()
 	data = db.search(keywordlist,username,lattitude,longitude)
-	print data
 	return render_template('showtable.html',table = data)
 
 

@@ -43,7 +43,7 @@ background-color:#9acd32;
 <h2> Hii {{ name }}!</h2>
 {% endif %}
 
-<form name="input" action="http://127.0.0.1:5000/search" method="GET">
+<form name="input" action="http://127.0.0.1:5000/search/{{name}}" method="GET">
 <input type="submit" value="Search"> 
 <input type ="hidden" name= "user" >
 <input type ="hidden" name= "latitude" >
