@@ -38,7 +38,7 @@ def tipreader(username):
 	 
 	if request.method == 'POST':
 		db = losoDB()
-		taglist = request.form['taglist'].rsplit(' ')
+		taglist = request.form['taglist'].rsplit(',')
 		db.addtip( request.form['username'], request.form['body'],
 		   request.form['latitude'],request.form['longitude'],
 	           0, taglist)
@@ -63,7 +63,7 @@ def search(username):
 
 		
 def search_tweet(username,keyword,lattitude,longitude):
-        keywordlist = keyword.rsplit(" ")
+        keywordlist = keyword.rsplit(",")
 	db = losoDB()
 	data = db.search(keywordlist,username,lattitude,longitude)
 	return render_template('showtable.html',table = data)
