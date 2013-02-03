@@ -44,7 +44,9 @@ def tipreader(username):
 	           0, taglist)
 	        return render_template('homepage.html', name = username)     			
  	else:										    
-		return render_template('tipreader.html', name = username) 
+		db = losoDB()
+		taglist = db.gettaglist()										    
+		return render_template('tipreader.html', tags = taglist, name = username)  
 									 
 @app.route('/admin/table/<table_name>')
 

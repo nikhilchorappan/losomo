@@ -88,9 +88,9 @@
 
 {% if name %}
 
-<form name="input" action="" method="POST">
+<form name="input" action="" method="POST" autocomplete="on">
 Tip: <input type="text" name="body"><br>
-Tags: <input type="text" name="tag" id="tag">
+Tags: <input list="tags" name="tag" id="tag">
 <input type="button" value="add" id="addbutton" onclick="setTag()">
 <input type="submit" value="Submit">
 
@@ -101,6 +101,12 @@ Tags: <input type="text" name="tag" id="tag">
 </form>
 <div id="tagPrint" style="height: 50px"></div>
 <div id="map_canvas" style="width:500px;height:500px;"></div>
+
+<datalist id="tags">
+{% for tag in tags %}
+    <option value="{{ tag[0] }}">
+{% endfor %}
+</datalist>
 
 {% endif %}
 </body>

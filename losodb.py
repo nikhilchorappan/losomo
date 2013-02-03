@@ -167,7 +167,10 @@ class losoDB():
                                     tagtiprelation.tweetid = ?''',[tweet[-1]] )    
       tweettaglist.append(tuple(list( tweet[0:-1]) +taglist ))
     return tweettaglist      
-            
+         
+  def gettaglist(self):	
+    taglist = self.query('''select tagname from tag''')
+    return taglist	   
              
 	   	     
 if __name__ == "__main__":
