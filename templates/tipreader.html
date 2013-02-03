@@ -60,6 +60,22 @@
       }
     }
 </script>
+<script type="text/javascript">
+    var singletag
+    var taglist="";
+    var tagprint
+    function setTag()
+    {
+     singletag = document.getElementById('tag').value;
+     tagprint=document.getElementById('tagPrint');
+     tagprint.innerHTML = tagprint.innerHTML+"     "+singletag;
+     taglist = taglist+","+singletag;
+     taglist = taglist.substring(1);
+     document.getElementById('taglist').value = taglist;
+     taglist = ","+taglist;
+     document.getElementById('tag').value ='';
+    }
+</script>
 </head>
 
 <body onload="getLocation()">
@@ -74,13 +90,16 @@
 
 <form name="input" action="" method="POST">
 Tip: <input type="text" name="body"><br>
-Tags: <input type="text" name="taglist">
+Tags: <input type="text" name="tag" id="tag">
+<input type="button" value="add" id="addbutton" onclick="setTag()">
 <input type="submit" value="Submit">
 
+<input type="hidden" id="taglist" name="taglist" value="">
 <input type ="hidden" name= "username" value ={{name}} > 
 <input type="hidden" id="latField" value="" name="latitude"/>
 <input type="hidden" id="lngField" value="" name="longitude"/>	
 </form>
+<div id="tagPrint" style="height: 50px"></div>
 <div id="map_canvas" style="width:500px;height:500px;"></div>
 
 {% endif %}
