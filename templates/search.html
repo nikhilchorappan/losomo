@@ -81,8 +81,8 @@ var singletag
 
 <body onload="getLocation()">
 {% if name %}
-<form name="input" action="" method="POST">
-Search for : <input type="text" name="tag" id="tag">
+<form name="input" action="" method="POST" autocomplete="on">
+Search for : <input type="text" list="tags" name="tag" id="tag">
 <input type="button" value="Add" id="addbutton" onclick="setTag()">
 <input type="submit" value="Submit"> 
 
@@ -93,6 +93,12 @@ Search for : <input type="text" name="tag" id="tag">
 </form>
 <div id="searchPrint" style="height: 50px"></div>
 <div id="map_canvas" style="width:500px;height:500px;"></div>
+<datalist id="tags">
+{% for tag in tags %}
+    <option value="{{ tag[0] }}">
+{% endfor %}
+</datalist>
+
 
 <h1> hello {{ name }}!</h1>
 {% else %}

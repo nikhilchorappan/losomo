@@ -59,7 +59,9 @@ def showtable(table_name):
 @app.route('/search/<username>', methods=['GET', 'POST'])
 def search(username):
 	if request.method == 'GET':
-		return render_template('search.html',name=username)
+                db = losoDB()
+		taglist = db.gettaglist()										    
+		return render_template('search.html', tags = taglist, name = username)
 	else:
 		return search_tweet( request.form['username'], request.form['search'], request.form['latitude'], request.form['longitude'])
 
