@@ -17,6 +17,10 @@
   function showPosition()
    {
     //myLatlng = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+    //document.getElementById('latField').value = position.coords.latitude;
+    //document.getElementById('lngField').value = position.coords.longitude;
+    document.getElementById('latField').value = "8.54385826454";
+    document.getElementById('lngField').value = "76.8950002774";
     myLatlng = new google.maps.LatLng("8.54385826454","76.8950002774");
     var myOptions = {
       zoom:17,
@@ -35,10 +39,14 @@
         'drag',
         function() {
             document.getElementById('latField').value = marker.position.lat();
-            document.getElementById('lngField').value = marker.position.lng();
+	    document.getElementById('lngField').value = marker.position.lng();
+            //alert(document.getElementById('latField').value);
+            //alert(document.getElementById('lngField').value);
+	    
         }
     );
   }
+
 
   function showError(error)
     {
