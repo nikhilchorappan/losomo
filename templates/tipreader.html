@@ -13,8 +13,8 @@
       }
     else{document.getElementById('map_canvas').innerHTML="Geolocation is not supported by this browser.";}
       }
-
-  function showPosition(position)
+  //function showPosition(position)
+  function showPosition()
    {
     //myLatlng = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
     myLatlng = new google.maps.LatLng("8.54385826454","76.8950002774");
@@ -78,7 +78,7 @@
 </script>
 </head>
 
-<body onload="getLocation()">
+<body onload="showPosition()">
 {% if name %}
 <h1> hello {{ name }}!</h1>
 {% else %}
