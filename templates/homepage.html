@@ -1,58 +1,155 @@
-
-<!doctype html>
-<title>Homepage</title>
+<!DOCTYPE html>
 
 <style>
-h1
-{
-color:black;
-text-align:left;
-font-type=times new roman;
+.header {
+    	background-color:#9acd32;
+	height:125px;
 }
-h2
-{
-color:black;
-text-align:left;
-font-type=times new roman;
+.header div {
+	background-color:#9acd32;
+
+	margin:0 auto;
+	overflow:hidden;
+	padding:0 10px;
+	position:relative;
+	width:940px;
 }
-h3
-{
-color:black;
-text-align:right;
-font-type=times new roman;
+.header div a#logo {
+	float:left;
+	left:8px;
+	position:absolute;
+	top:44px;
 }
-body
-{
-background-color:ffffff:
+.header div div {
+	float:right;
+	margin:0;
+	padding:0;
+	position:static;
+	width:475px;
 }
-div
-{
-background-color:#9acd32;
+.header div div > a {
+	display:block;
+	float:right;
+	margin:0 19px 0 0;
+	width:201px;
+	height:58px;
+	text-indent:-99999px;
 }
+.header div div ul {
+	clear:both;
+	list-style:none;
+	margin:0;
+	overflow:hidden;
+	padding:21px 0 0;
+}
+.header div div ul li:first-child {
+	margin:0;
+}
+.header div div ul li {
+	float:left;
+	margin:0 0 0 30px;
+}
+.header div div ul li a:first-child {
+	color:#fff;
+	display:inline;
+	float:none;
+	font-family:rokkittbold;
+	font-size:16px;
+	letter-spacing:.025em;
+	line-height:24px;
+	margin:0;
+	text-decoration:none;
+	text-shadow:2px 3px 2px #000;
+}
+.footer div {
+	margin:27px auto 0;
+	overflow:hidden;
+	padding:0 10px;
+	width:940px;
+}
+.footer div ul {
+	float:left;
+	list-style:none;
+	margin:0;
+	overflow:hidden;
+	padding:0;
+}
+.footer div ul li {
+	float:left;
+	margin:0 0 0 31px;
+}
+
+
+
 </style>
 
-<body>
-<div>
-{% if name %}
-<h3>{{ name }}</h3>
-{% endif %}
-<h1>LOSOMO</h1>
+
+
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>HomePage</title>
+	<link rel="stylesheet" href="css/styling.css" type="text/css">
+
+</head>
+<body> 
+
+<div id="templatePreview">
+	<div class="header">
+              <div>
+		<h1>LoSoMo</h1>
+			<div>
+			   <ul>
+				<form name="input" action="http://127.0.0.1:5000/search/{{name}}" method="GET">
+				<input type ="hidden" name= "user" >
+				<input type ="hidden" name= "latitude" >
+				<input type ="hidden" name= "longitude" >
+				<li>
+					<input type ="submit" value="Search" style="background-color:#9acd32;">	
+				</li>
+				<li>
+				<input type=button onClick="parent.location='http://127.0.0.1:5000/tipreader/{{name}}'" value="Tip" style="background-color:#9acd32;">	
+				</li>
+				<li>{% if name %}
+					{{ name }}
+				    {% endif %}
+
+				</li>
+                                </form>
+			   </ul>
+			</div>
+		</div>
+
+	</div>
 
 </div>
-{% if name %}
-<h2> Hii {{ name }}!</h2>
-{% endif %}
 
-<form name="input" action="http://127.0.0.1:5000/search/{{name}}" method="GET">
-<input type="submit" value="Search"> 
-<input type ="hidden" name= "user" >
-<input type ="hidden" name= "latitude" >
-<input type ="hidden" name= "longitude" >
 
-<input type=button onClick="parent.location='http://127.0.0.1:5000/tipreader/{{name}}'" value='Tip'>	
 
-</form>
-<body onload="getLocation()">
+	
+	<div class="footer">
+		<div>
+	
+				<h4>Recent Tweets</h4>
+				{% block body %}
+  					<ul>
+					<li>
+				   <p>
+  					{% for row in table %}
+   					   {% for atribute in row %}
+    						<body> {{ atribute }}</body>
+     					   {% endfor %}
+      				         <p>
+					</li>
+  					{% endfor%}
+ 				      </ul>
+				{% endblock %}
+				
+
+			</div>
+			
+		
+	</div>
 
 
 <p id="demo"></p>
@@ -105,18 +202,6 @@ function showError(error)
     }
   }
 </script>
-
-{% block body %}
-  <ul>
-  {% for row in table %}
-      {% for atribute in row %}
-    	<body> {{ atribute }}</body>
-      {% endfor %}
-      <br> <br>
-  {% endfor%}
-  </ul>
-{% endblock %}
-</body>
-
+	
 
 </html>
