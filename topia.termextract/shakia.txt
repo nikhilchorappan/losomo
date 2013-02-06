@@ -1,0 +1,19 @@
+the extractor is stripped and included in the app.py/tipreader.what you have to do is make it a list and take the union and store it as usual.
+
+But the problem is
+ the result of the extractor() is a 2D array
+
+>> list = extractor("For all problems with you mobile-akash mobile shop")
+>>> print list
+[('shop', 1, 1), ('mobile-akash', 1, 1), ('problem', 1, 1)]
+>>> print list[0]
+('shop', 1, 1)
+>>> print list[0][0]
+shop
+
+
+so you can access the right tag by taking the list[0][0]
+1)So make a list that consist of taglist 
+2)do the union and
+3) store it 
+

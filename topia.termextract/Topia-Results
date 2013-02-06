@@ -1,0 +1,43 @@
+/// http://pypi.python.org/pypi/topia.termextract/  //
+
+
+>>> extractor("here is the postoffice")
+[('postoffice', 1, 1)]
+>>> extractor("Get the best meencurry from Hotel Brown")
+[('Brown', 1, 1), ('Hotel', 1, 1), ('meencurry', 1, 1)]
+>>> 
+>>> 
+>>> 
+>>> extractor(" ketals chicken awsome....")
+[('ketal', 1, 1), ('awsome', 1, 1), ('....', 1, 1), ('chicken', 1, 1)]
+>>> 
+>>> extractor("zamzam shewai.. range")
+[('zamzam shewai', 1, 2), ('range', 1, 1), ('shewai', 1, 1), ('zamzam', 1, 1)]
+>>> 
+>>> 
+>>> extractor("obama lives here")
+[('obama lives', 1, 2), ('live', 1, 1), ('obama', 1, 1)]
+>>> 
+>>> 
+>>> extractor("Aj hospital is the best hospital in kazhakootam")
+[('hospital', 2, 1), ('Aj', 1, 1), ('kazhakootam', 1, 1), ('Aj hospital', 1, 2)]
+>>> 
+>>> 
+>>> extractor("Careful while taking the turn,grit is there..")
+[(',grit', 1, 1), ('Careful', 1, 1)]
+>>> 
+>>> 
+>>> extractor("Get fish curry from Brown,its excellent !")
+[(',it', 1, 1), ('Brown', 1, 1), ('fish', 1, 1), ('Brown ,its', 1, 2)]
+>>> 
+>>> 
+>>> extractor("Good monthly rent apartments,3BHK")
+[('apartment', 1, 1), ('Good', 1, 1), ('rent', 1, 1), (',3BHK', 1, 1)]
+>>> 
+>>> 
+>>> extractor("bus timings- 2.30,4.45")
+[('timing', 1, 1), ('bus', 1, 1), ('bus timings', 1, 2), ('2.30,4.45', 1, 1)]
+>>> 
+>>> 
+>>> 
+

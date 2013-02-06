@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from flask import *
 from losodb import *
+import re
+from topia.termextract import extract
 
 app = Flask(__name__)
 
@@ -25,7 +27,8 @@ def valid_login(username,password):
 
 def signup():
 	if request.method == 'GET':
-		return  render_template('signup.html')    
+		#return  render_template('test.html')
+                return  render_template('signup.html')    
 	else:
 		db = losoDB()
 		db.adduser( request.form['username'],
@@ -38,6 +41,15 @@ def tipreader(username):
 	 
 	if request.method == 'POST':
 		db = losoDB()
+                
+                #extractor implementation
+		extractor = extract.TermExtractor()
+                extractor.filter=extract.permissiveFilter
+                msgbody = request.form['body']
+		msgbody = re.sub(r'[^\w]', ' ', msgbody)
+                extracttaglist = extractor(msgbody)
+                print extracttaglist#extractor list printing
+
 		taglist = request.form['taglist'].rsplit(',')
 		db.addtip( request.form['username'], request.form['body'],
 		   request.form['latitude'],request.form['longitude'],
