@@ -1,5 +1,84 @@
 <!DOCTYPE html>
 <html>
+<style>
+.header {
+    	background-color:#9acd32;
+	height:125px;
+}
+.header div {
+	background-color:#9acd32;
+
+	margin:0 auto;
+	overflow:hidden;
+	padding:0 10px;
+	position:relative;
+	width:940px;
+}
+.header div a#logo {
+	float:left;
+	left:8px;
+	position:absolute;
+	top:44px;
+}
+.header div div {
+	float:right;
+	margin:0;
+	padding:0;
+	position:static;
+	width:475px;
+}
+.header div div > a {
+	display:block;
+	float:right;
+	margin:0 19px 0 0;
+	width:201px;
+	height:58px;
+	text-indent:-99999px;
+}
+.header div div ul {
+	clear:both;
+	list-style:none;
+	margin:0;
+	overflow:hidden;
+	padding:21px 0 0;
+}
+.header div div ul li:first-child {
+	margin:0;
+}
+
+.footer div {
+	margin:27px auto 0;
+	overflow:hidden;
+	padding:0 10px;
+	width:940px;
+}
+.footer div ul {
+	float:left;
+	list-style:none;
+	margin:0;
+	overflow:hidden;
+	padding:0;
+}
+.footer div ul li {
+	float:left;
+	margin:0 0 0 31px;
+}
+
+#footer
+{
+margin:50px;
+top:50px;
+}
+
+
+
+
+
+</style>
+
+
+
+
 <head>
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
@@ -86,6 +165,31 @@
 </script>
 </head>
 
+<body>
+<div id="templatePreview">
+	<div class="header">
+              <div>
+		<h1>LoSoMo</h1>
+			<div>
+			   <ul>
+				
+				<li>{% if name %}
+					{{ name }}
+				    {% endif %}
+
+				</li>
+                                </form>
+			   </ul>
+			</div>
+		</div>
+
+	</div>
+
+</div>
+</body>
+
+
+
 <body onload="showPosition()">
 {% if name %}
 <h1> hello {{ name }}!</h1>
@@ -96,6 +200,7 @@
 {% if tags %}
 {% if name %}
 
+<div id="footer">
 <form name="input" action="" method="POST" autocomplete="on">
 Tip: <input type="text" name="body"><br>
 Tags: <input type="text" list="tags" name="tag" id="tag">
@@ -115,7 +220,7 @@ Tags: <input type="text" list="tags" name="tag" id="tag">
     <option value="{{ tag[0] }}">
 {% endfor %}
 </datalist>
-
+</div>
 {% endif %}
 {% endif %}
 </body>
