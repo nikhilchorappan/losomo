@@ -4,24 +4,31 @@
 <head>
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
-<title>Tip reader</title>
+<title>Login</title>
 <style>
 h2
 {
        position: relative; 
 	top: 100px;
 }
-
+body
+{
+	background-color:#9acd32;
+}
+div
+{
+	background-color:#00000;
+}
 </style>
 
 
 <body>
 <h2>
 <font face="verdana,arial" size=-1>
-
+<div>
 
 <center><table cellpadding='2' cellspacing='0' border='0' id='ap_table'>
-<tr><td bgcolor="green"><table cellpadding='0' cellspacing='0' border='0' width='100%'><tr><td bgcolor="green" align=center style="padding:2;padding-bottom:4"><b><font size=10 color="white" face="verdana,arial"><b>LOSOMO</b></font></th></tr>
+<tr><td bgcolor="black"><table cellpadding='0' cellspacing='0' border='0' width='100%'><tr><td bgcolor="black" align=center style="padding:2;padding-bottom:4"><b><font size=10 color="white" face="verdana,arial"><b>LOSOMO</b></font></th></tr>
 <tr><td bgcolor="white" style="padding:5"><br>
 <form name="input" action="http://127.0.0.1:5000/" method="POST" target="_top">
 <input type="hidden" name="action" value="login">
@@ -37,7 +44,7 @@ h2
 </table></center>
 </form>
 </td></tr></table></td></tr></table>
-
+</div>
 </h2>
 {% if error %}
 <h> {{ error }}!</h>
