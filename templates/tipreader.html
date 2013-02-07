@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+<title>Tip reader</title>
 <style>
 .header {
     	background-color:#9acd32;
@@ -69,22 +71,11 @@
 margin:50px;
 top:50px;
 }
-
-
-
-
-
 </style>
 
-
-
-
-<head>
-<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
-<title>Tip reader</title>
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
-<script type="text/javascript">
+<script type="text/javascript" src="{{ url_for('static', filename='map.js') }}"></script>
+<!--<script type="text/javascript">
   function getLocation() {
     if (navigator.geolocation)
       {
@@ -146,7 +137,7 @@ top:50px;
         break;
       }
     }
-</script>
+</script>-->
 <script type="text/javascript">
     var singletag
     var taglist="";
