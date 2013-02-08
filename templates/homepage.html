@@ -1,95 +1,11 @@
 <!DOCTYPE html>
 
-<style>
-.header {
-    	background-color:#9acd32;
-	height:125px;
-}
-.header div {
-	background-color:#9acd32;
-
-	margin:0 auto;
-	overflow:hidden;
-	padding:0 10px;
-	position:relative;
-	width:940px;
-}
-.header div a#logo {
-	float:left;
-	left:8px;
-	position:absolute;
-	top:44px;
-}
-.header div div {
-	float:right;
-	margin:0;
-	padding:0;
-	position:static;
-	width:475px;
-}
-.header div div > a {
-	display:block;
-	float:right;
-	margin:0 19px 0 0;
-	width:201px;
-	height:58px;
-	text-indent:-99999px;
-}
-.header div div ul {
-	clear:both;
-	list-style:none;
-	margin:0;
-	overflow:hidden;
-	padding:21px 0 0;
-}
-.header div div ul li:first-child {
-	margin:0;
-}
-.header div div ul li {
-	float:left;
-	margin:0 0 0 30px;
-}
-.header div div ul li a:first-child {
-	color:#fff;
-	display:inline;
-	float:none;
-	font-family:rokkittbold;
-	font-size:16px;
-	letter-spacing:.025em;
-	line-height:24px;
-	margin:0;
-	text-decoration:none;
-	text-shadow:2px 3px 2px #000;
-}
-.footer div {
-	margin:27px auto 0;
-	overflow:hidden;
-	padding:0 10px;
-	width:940px;
-}
-.footer div ul {
-	float:left;
-	list-style:none;
-	margin:0;
-	overflow:hidden;
-	padding:0;
-}
-.footer div ul li {
-	float:left;
-	margin:0 0 0 31px;
-}
-
-
-
-</style>
-
-
 
 <html>
 <head>
 	<meta charset="UTF-8">
 	<title>HomePage</title>
-	<link rel="stylesheet" href="css/styling.css" type="text/css">
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" type="text/css">
 
 </head>
 <body> 
@@ -128,18 +44,19 @@
 
 	
 	<div class="footer">
-		<div>
+                 <div>
 	
 				<h4>Recent Tweets</h4>
 				{% block body %}
-  					<ul>
-					<li>
-				   <p>
+  				<ul>
+				   <li>
+				      <p>
   					{% for row in table %}
-   					   {% for atribute in row %}
-    						<body> {{ atribute }}</body>
+   					   {% for atribute in row[0:2] %}
+    						{{ atribute }}<br/>
+                
      					   {% endfor %}
-      				         <p>
+      				        </p>
 					</li>
   					{% endfor%}
  				      </ul>
@@ -152,56 +69,5 @@
 	</div>
 
 
-<p id="demo"></p>
-
-<script>
-var x=document.getElementById("demo");
-
-function initForm(oForm, element_name, init_txt) {
-	frmElement = oForm.elements[element_name];
-	frmElement.value = init_txt;
-}
-
-function getLocation()
-  {
-  if (navigator.geolocation)
-    {
-    navigator.geolocation.getCurrentPosition(showPosition,showError);
-    }
-  else{x.innerHTML="Geolocation is not supported by this browser.";}
-  }
-
-function showPosition(position)
-  {
-  var latlon=position.coords.latitude+","+position.coords.longitude;
-   
-  var img_url="http://maps.googleapis.com/maps/api/staticmap?center="
-  +latlon+"&zoom=14&size=400x300&sensor=false";
-  document.getElementById("mapholder").innerHTML="<img src='"+img_url+"'>";
-  initForm(document.forms[0], 'latitude', position.coords.latitude);
-  initForm(document.forms[0], 'longitude', position.coords.longitude);
-  initForm(document.forms[0], 'user', {{name}}); 
-  }
-
-function showError(error)
-  {
-  switch(error.code) 
-    {
-    case error.PERMISSION_DENIED:
-      x.innerHTML="User denied the request for Geolocation."
-      break;
-    case error.POSITION_UNAVAILABLE:
-      x.innerHTML="Location information is unavailable."
-      break;
-    case error.TIMEOUT:
-      x.innerHTML="The request to get user location timed out."
-      break;
-    case error.UNKNOWN_ERROR:
-      x.innerHTML="An unknown error occurred."
-      break;
-    }
-  }
-</script>
-	
-
+</body>
 </html>
