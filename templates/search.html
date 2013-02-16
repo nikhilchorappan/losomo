@@ -1,4 +1,16 @@
 <!DOCTYPE html>
+<script type="text/javascript">
+function sendIt()
+
+{
+
+   document.input.action ="http://127.0.0.1:5000/tipreader/{{name}}";
+
+   document.input.submit();
+
+}
+
+</script>
 <head>
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
@@ -85,17 +97,25 @@ var singletag
 		<h1>LoSoMo</h1>
 			<div>
 			   <ul>
-				<form name="input" action="http://127.0.0.1:5000/" method="POST">
+				<form name="input" method="GET">
 				<input type ="hidden" name= "user" >
 				<input type ="hidden" name= "latitude" >
 				<input type ="hidden" name= "longitude" >
-				
+				</form>
+				<li>
+                               <input type="image" name="submitBtn" onclick="window.location = 'http://127.0.0.1:5000/tipreader/{{name}}'" src="{{ url_for('static',filename='add.png') }}"style="height:40px;width:60px;"> 
+                                </li>  
+
 				<li>{% if name %}
 					{{ name }}
 				    {% endif %}
 
 				</li>
-                                </form>
+				 <li>
+                                  <img src="{{ url_for('static', filename='nikhil.jpg') }}" style="height:40px;width:40px;">
+
+                                 </li>
+                        
 			   </ul>
 			</div>
 		</div>
