@@ -1,4 +1,41 @@
 <!DOCTYPE html>
+<script type="text/javascript">
+function verify()
+
+{
+   alert("Hello");
+
+   document.input.action ="http://127.0.0.1:5000/search/{{name}}";
+
+   document.input.submit();
+
+}
+
+function sendIt()
+
+{
+
+   document.input.action ="http://127.0.0.1:5000/tipreader/{{name}}";
+
+   document.input.submit();
+
+}
+function show(selector) {
+      var z= selector.value;
+      var article = document.getElementsByTagName("div");
+      for(var x=0; x<article.length; x++) {
+        name = article[x].getAttribute("name");
+        if (name == 'article') {
+          if (article[x].id == z) {
+            article[x].style.display = 'block';
+          }else{
+            article[x].style.display = 'none';
+          }
+        }
+      }
+    }
+
+</script>
 <head>
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
@@ -93,13 +130,20 @@
 		<h1>LoSoMo</h1>
 			<div>
 			   <ul>
-				
+	                       <li>
+				 <input type="image" name="submitBtn" onclick="window.location = 'http://127.0.0.1:5000/search/{{name}}'" src="{{ url_for('static',filename='search.png') }}"style="height:40px;width:40px;">		
+				</li>
+                              
 				<li>{% if name %}
 					{{ name }}
 				    {% endif %}
 
 				</li>
-                                </form>
+                                  <li>
+                                  <img src="{{ url_for('static', filename='nikhil.jpg') }}" style="height:40px;width:40px;">
+
+                                 </li>
+                     
 			   </ul>
 			</div>
 		</div>
@@ -123,10 +167,44 @@
 
 <div id="footer">
 <form name="input" action="" method="POST" autocomplete="on">
-Tip: <input type="text" name="body"><br>
+Type:<select id="selectlist" name="list" onchange="show(this)">
+<option value="id1"> Reviews </option>
+<option value="id2" SELECTED> Tips </option>
+<option value="id3"> Messages </option>
+<option value="id4">Notifications</option>
+</select><br>
+
+<div name="article"id="id2" style="display:block;">
+Tip:<br>
+<input type="text" name="body" style="width:300px;height:200px"><br>
 Tags: <input type="text" list="tags" name="tag" id="tag">
 <input type="button" value="add" id="addbutton" onclick="setTag()">
-<input type="submit" value="Submit">
+<input type="submit" value="Submit"></div>
+
+<div name="article"id="id1" style="display:none;">
+Reviews:<br>
+<input type="text" name="body" style="width:300px;height:200px"><br>
+Tags: <input type="text" list="tags" name="tag" id="tag">
+<input type="button" value="add" id="addbutton" onclick="setTag()">
+<input type="submit" value="Submit"></div>
+</div>
+
+<div name="article"id="id3" style="display:none;">
+Message:<br>
+<input type="text" name="body" style="width:300px;height:200px"><br>
+Tags: <input type="text" list="tags" name="tag" id="tag">
+<input type="button" value="add" id="addbutton" onclick="setTag()">
+<input type="submit" value="Submit"></div>
+</div>
+
+<div name="article"id="id4"style="display:none;">
+Notification:<br>
+<input type="text" name="body" style="width:300px;height:200px"><br>
+Tags: <input type="text" list="tags" name="tag" id="tag">
+<input type="button" value="add" id="addbutton" onclick="setTag()">
+<input type="submit" value="Submit"></div>
+</div>
+
 
 <input type="hidden" id="taglist" name="taglist" value="">
 <input type ="hidden" name= "username" value ={{name}} > 
