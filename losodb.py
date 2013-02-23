@@ -168,6 +168,16 @@ class losoDB():
       tweettaglist.append(tuple(list( tweet[0:-1]) +taglist ))
     return tweettaglist      
          
+  def gettweettaglist(self,taglist = None ,username = None,latitude = None,longitude = None):
+    tweetlist  = self.query("select username, body, timestamp, latitude, longitude, tweetid from tweets")
+    tweettaglist = []
+    for tweet in tweetlist :
+      taglist = self.query('''select tagname from tag,tagtiprelation
+                                   where tag.tagid = tagtiprelation.tagid and 
+                                    tagtiprelation.tweetid = ?''',[tweet[-1]] )    
+      tweettaglist.append(tuple(list( tweet[0:-1]) +taglist ))
+    return tweettaglist 
+
   def gettaglist(self):	
     taglist = self.query('''select tagname from tag''')
     return taglist	   
