@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="UTF-8">
+	<title>Home</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}" type="text/css">
+  <link rel="stylesheet" href="{{url_for('static', filename='css/button.css') }}" type="text/css">
+  <link rel="stylesheet" href="{{url_for('static',filename='css/reveal.css')}}" type="text/css">
+
+  <!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>-->
+  <script type="text/javascript" src="{{url_for('static',filename='js/jquery-1.4.4.min.js')}}"></script>
+  <script type="text/javascript" src="{{url_for('static',filename='js/jquery.reveal.js')}}"></script>
+</head>
+<body>
+   <div id = "header">
+   	<div id ="logo">
+      <img src="{{ url_for('static', filename='image/logo.png') }}" width ="250" height = "100">
+    </div>  
+    <div id = "nav">
+      <ul id ="navlist">
+
+        <li id ="addbutton">
+          <img src="{{ url_for('static', filename='image/add.png') }}" 
+           onclick="window.location='http://127.0.0.1:5000/tipreader/{{name}}'" width ="40" height="40">
+         </li>
+        <li id ="searchbutton"><img src="{{ url_for('static', filename='image/search.png') }}" 
+        onclick="window.location='http://127.0.0.1:5000/search/{{name}}'" width ="40" height="40"></li>
+        <li id ="userphoto"><img src="{{url_for('static', filename='image/Tony.jpg') }}" width ="40" height="40"></li>
+      </ul>
+    </div>
+   </div>
+   <div id="fullbody">
+   <div id = "popularTags">
+   </div>
+   {%for tab in table%}  
+  <div id = "left-area"> 
+  
+   </div>
+   
+   <div id = "sparkList" >
+   <a href=" " data-reveal-id="popbox">
+       
+     <div id="sparkuserphoto">
+       <img src="{{ url_for('static', filename='image/Tony.jpg') }}" width ="60" height="60">
+     </div>
+     <div id="sparkbody">
+        <h3>{{tab[0]}}</h3>
+        <p>{{tab[1]}}</p>
+     </div>
+     <div id="taglist">
+       {%for item in tab[2:] %}  
+       <a class="post-tag">{{item[0]}}</a> 
+       {% endfor %}
+     </div>
+     
+   </br></br>
+   </a>
+   </div>
+   <div id="popbox" class="reveal-modal">
+      <h1>{{tab[0]}}</h1>
+      <p>{{tab[1]}}</p>
+      <!--<a class="close-reveal-modal">&#215;</a>-->
+    </div>
+   <div id = "right-area">
+      
+   </div>
+   {% endfor %}
+   </div>
+   
+</body>
+</html>

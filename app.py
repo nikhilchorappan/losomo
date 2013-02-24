@@ -17,7 +17,8 @@ def valid_login(username,password):
    if db.authenticate(username,password) :
 	  db = losoDB()	
 	  data = db.gethomedata()	  
-	  return render_template('homepage.html',name = username, table = data)
+	  taglist = db.gettaglist()		
+	  return render_template('home.html',name = username,tags = taglist, table = data)
    else :
 	  return render_template('login.html',error = " Authentication faild" )
 
@@ -44,7 +45,7 @@ def tipreader(username):
 		   request.form['latitude'],request.form['longitude'],
 	           0, taglist)
                 data = db.gethomedata()
-	        return render_template('homepage.html', name = username,table = data)     			
+	        return render_template('home.html', name = username,table = data)     			
  	else:										    
 		db = losoDB()
 		taglist = db.gettaglist()										    

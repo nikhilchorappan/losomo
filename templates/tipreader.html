@@ -1,218 +1,90 @@
 <!DOCTYPE html>
-<script type="text/javascript">
-function verify()
-
-{
-   alert("Hello");
-
-   document.input.action ="http://127.0.0.1:5000/search/{{name}}";
-
-   document.input.submit();
-
-}
-
-function show(selector) {
-      var z= selector.value;
-      var article = document.getElementsByTagName("div");
-      for(var x=0; x<article.length; x++) {
-        name = article[x].getAttribute("name");
-        if (name == 'article') {
-          if (article[x].id == z) {
-            article[x].style.display = 'block';
-          }else{
-            article[x].style.display = 'none';
-          }
-        }
-      }
-    }
-
-</script>
 <head>
-<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" type="text/css">
-<title>Tip reader</title>
-<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
-<script type="text/javascript">
-  function getLocation() {
-    if (navigator.geolocation)
-      {
-       navigator.geolocation.getCurrentPosition(showPosition,showError);
-      }
-    else{document.getElementById('map_canvas').innerHTML="Geolocation is not supported by this browser.";}
-      }
-  //function showPosition(position)
-  function showPosition()
-   {
-    //myLatlng = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
-    //document.getElementById('latField').value = position.coords.latitude;
-    //document.getElementById('lngField').value = position.coords.longitude;
-    document.getElementById('latField').value = "8.54385826454";
-    document.getElementById('lngField').value = "76.8950002774";
-    myLatlng = new google.maps.LatLng("8.54385826454","76.8950002774");
-    var myOptions = {
-      zoom:17,
-      center: myLatlng,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    }
-    var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-    
-    var marker = new google.maps.Marker({
-        position: myLatlng, 
-        map: map,
-        draggable:true
-    });
-    google.maps.event.addListener(
-        marker,
-        'drag',
-        function() {
-            document.getElementById('latField').value = marker.position.lat();
-	    document.getElementById('lngField').value = marker.position.lng();
-            //alert(document.getElementById('latField').value);
-            //alert(document.getElementById('lngField').value);
-	    
-        }
-    );
-  }
-
-
-  function showError(error)
-    {
-     var x = document.getElementById('map_canvas');
-     switch(error.code) 
-      {
-       case error.PERMISSION_DENIED:
-        x.innerHTML="User denied the request for Geolocation."
-        break;
-       case error.POSITION_UNAVAILABLE:
-        x.innerHTML="Location information is unavailable."
-        break;
-       case error.TIMEOUT:
-        x.innerHTML="The request to get user location timed out."
-        break;
-       case error.UNKNOWN_ERROR:
-        x.innerHTML="An unknown error occurred."
-        break;
-      }
-    }
-</script>
-<script type="text/javascript">
-    var singletag
-    var taglist="";
-    var tagprint
-    function setTag()
-    {
-     singletag = document.getElementById('tag').value;
-     tagprint=document.getElementById('tagPrint');
-     tagprint.innerHTML = tagprint.innerHTML+"     "+singletag;
-     taglist = taglist+","+singletag;
-     taglist = taglist.substring(1);
-     document.getElementById('taglist').value = taglist;
-     taglist = ","+taglist;
-     document.getElementById('tag').value ='';
-    }
-</script>
+	<meta charset="UTF-8">
+	<title>Add a spark</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='css/adder.css')}}" type="text/css">
+	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+	<script type="text/javascript" src="{{url_for('static',filename='js/map.js')}}"></script>
+	<script type="text/javascript" src="{{url_for('static',filename='js/adder.js')}}"></script>
 </head>
-
-<body>
-<div id="templatePreview">
-	<div class="header">
-              <div>
-		<h1>LoSoMo</h1>
-			<div>
-			   <ul>
-	                       <li>
-				 <input type="image" name="submitBtn" onclick="window.location = 'http://127.0.0.1:5000/search/{{name}}'" src="{{ url_for('static',filename='search.png') }}"style="height:40px;width:40px;">		
-				</li>
-                              
-				<li>{% if name %}
-					{{ name }}
-				    {% endif %}
-
-				</li>
-                                  <li>
-                                  <img src="{{ url_for('static', filename='nikhil.jpg') }}" style="height:40px;width:40px;">
-
-                                 </li>
-                     
-			   </ul>
-			</div>
-		</div>
-
-	</div>
-
-</div>
-</body>
-
-
-
 <body onload="showPosition()">
-{% if name %}
-<h1> hello {{ name }}!</h1>
-{% else %}
-<h1>invalid user </h1>
-{% endif %}
+	<div id = "header">
+   	    <div id ="logo">
+            <img src="{{ url_for('static', filename='image/logo.png') }}" width ="250" height = "100">
+        </div>  
+        <div id = "nav">
+            <ul id ="navlist">
+                <li id ="searchbutton"><img src="{{ url_for('static', filename='image/search.png') }}" 
+                    onclick="window.location='http://127.0.0.1:5000/search/{{name}}'" width ="40" height="40">
+                </li>
+                <li id ="userphoto"><img src="{{url_for('static', filename='image/Tony.jpg') }}" width ="40" height="40">
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div id = "content">
+    	<div id="add-form">
+           <h3>Share a Spark</h3>
+           <form name="input" action="" method="POST" autocomplete="on">
+                Type:<select id="selectlist" name="list" onchange="show(this)">
+                    <option value="id1"> Reviews </option>
+                    <option value="id2" SELECTED> Tips </option>
+                    <option value="id3"> Messages </option>
+                    <option value="id4">Notifications</option>
+                </select><br>
 
-{% if tags %}
-{% if name %}
+                <div name="article"id="id2" style="display:block;">
+                    Tip:<br>
+                    <textarea name="body" rows="5" cols="25"></textarea>
+                    Tags: <input type="text" list="tags" name="tag" id="tag">
+                    <input type="button" value="add" id="addbutton" onclick="setTag()">
+                    <input type="submit" value="Submit">
+                </div>
 
-<div id="footer">
-<form name="input" action="" method="POST" autocomplete="on">
-Type:<select id="selectlist" name="list" onchange="show(this)">
-<option value="id1"> Reviews </option>
-<option value="id2" SELECTED> Tips </option>
-<option value="id3"> Messages </option>
-<option value="id4">Notifications</option>
-</select><br>
+                <div name="article"id="id1" style="display:none;">
+                    Reviews:<br>
+                    <textarea name="body" rows="5" cols="25"></textarea>
+                    Tags: <input type="text" list="tags" name="tag" id="tag">
+                    <input type="button" value="add" id="addbutton" onclick="setTag()">
+                    <input type="submit" value="Submit">
+                </div>
 
-<div name="article"id="id2" style="display:block;">
-Tip:<br>
-<input type="text" name="body" style="width:300px;height:200px"><br>
-Tags: <input type="text" list="tags" name="tag" id="tag">
-<input type="button" value="add" id="addbutton" onclick="setTag()">
-<input type="submit" value="Submit"></div>
+                <div name="article"id="id3" style="display:none;">
+                    Message:<br>
+                    <textarea name="body" rows="5" cols="25"></textarea>
+                    Tags: <input type="text" list="tags" name="tag" id="tag">
+                    <input type="button" value="add" id="addbutton" onclick="setTag()">
+                    <input type="submit" value="Submit">
+                </div>
 
-<div name="article"id="id1" style="display:none;">
-Reviews:<br>
-<input type="text" name="body" style="width:300px;height:200px"><br>
-Tags: <input type="text" list="tags" name="tag" id="tag">
-<input type="button" value="add" id="addbutton" onclick="setTag()">
-<input type="submit" value="Submit"></div>
-</div>
+                <div name="article"id="id4"style="display:none;">
+                    Notification:<br>
+                    <textarea  name="body" rows="5" cols="25"></textarea>
+                    Tags: <input type="text" list="tags" name="tag" id="tag">
+                    <input type="button" value="add" id="addbutton" onclick="setTag()">
+                    <input type="submit" value="Submit">-->
+                </div>
 
-<div name="article"id="id3" style="display:none;">
-Message:<br>
-<input type="text" name="body" style="width:300px;height:200px"><br>
-Tags: <input type="text" list="tags" name="tag" id="tag">
-<input type="button" value="add" id="addbutton" onclick="setTag()">
-<input type="submit" value="Submit"></div>
-</div>
+                
+                <input type="hidden" id="taglist" name="taglist" value="">
+                <input type ="hidden" name= "username" value ={{name}} > 
+                <input type="hidden" id="latField" value="" name="latitude"/>
+                <input type="hidden" id="lngField" value="" name="longitude"/>	
+                
+            <div id="tagPrint" style="height: 50px"></div>
+    	</div>
+    	<div id ="mapcontainer">
 
-<div name="article"id="id4"style="display:none;">
-Notification:<br>
-<input type="text" name="body" style="width:300px;height:200px"><br>
-Tags: <input type="text" list="tags" name="tag" id="tag">
-<input type="button" value="add" id="addbutton" onclick="setTag()">
-<input type="submit" value="Submit"></div>
-</div>
-
-
-<input type="hidden" id="taglist" name="taglist" value="">
-<input type ="hidden" name= "username" value ={{name}} > 
-<input type="hidden" id="latField" value="" name="latitude"/>
-<input type="hidden" id="lngField" value="" name="longitude"/>	
-</form>
-<div id="tagPrint" style="height: 50px"></div>
-<div id="map_canvas" style="width:500px;height:500px;"></div>
-
-<datalist id="tags">
-{% for tag in tags %}
-    <option value="{{ tag[0] }}">
-{% endfor %}
-</datalist>
-</div>
-{% endif %}
-{% endif %}
+    	</div>
+    	<div id="submit-strip">
+            
+    	</div>
+        </form>  
+    	<datalist id="tags">
+         {% for tag in tags %}
+           <option value="{{ tag[0] }}">
+         {% endfor %}
+        </datalist>
+    </div>
 </body>
 </html>
-

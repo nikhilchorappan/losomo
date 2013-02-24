@@ -1,0 +1,15 @@
+.post-tag{
+ background:#e0eaf1;
+ border-right:1px solid #3E6D8E;
+ border-bottom:1px solid #3E6D8E;
+ padding:2px 5px;
+ color:#4a6b82;
+}
+.post-tag{
+ text-decoration:none;
+}
+
+.post-tag:hover{
+ background:#3E6D8E;
+ color:#fff;
+}

@@ -1,25 +1,27 @@
+//get location from browser-not required in desktop view
 function getLocation() {
     if (navigator.geolocation)
       {
        navigator.geolocation.getCurrentPosition(showPosition,showError);
       }
-    else{document.getElementById('map_canvas').innerHTML="Geolocation is not supported by this browser.";}
+    else{document.getElementById('mapcontainer').innerHTML="Geolocation is not supported by this browser.";}
       }
-  //function showPosition(position)
+  //function showPosition(position) //used when using getLocation()
+  //Showing the position in map
   function showPosition()
    {
     //myLatlng = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
     //document.getElementById('latField').value = position.coords.latitude;
     //document.getElementById('lngField').value = position.coords.longitude;
-    //document.getElementById('latField').value = "8.54385826454";
-    //document.getElementById('lngField').value = "76.8950002774";
-    myLatlng = new google.maps.LatLng("8.54385826454","76.8950002774");
+    document.getElementById('latField').value = "8.54385826454";
+    document.getElementById('lngField').value = "76.8950002774";
+    myLatlng = new google.maps.LatLng("8.54385826454","76.8950002774");//default monvila
     var myOptions = {
       zoom:17,
       center: myLatlng,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     }
-    var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+    var map = new google.maps.Map(document.getElementById('mapcontainer'), myOptions);
     
     var marker = new google.maps.Marker({
         position: myLatlng, 
@@ -32,17 +34,15 @@ function getLocation() {
         function() {
             document.getElementById('latField').value = marker.position.lat();
 	    document.getElementById('lngField').value = marker.position.lng();
-            //alert(document.getElementById('latField').value);
-            //alert(document.getElementById('lngField').value);
-	    
+            
         }
     );
   }
 
-
+//Error handler
   function showError(error)
     {
-     var x = document.getElementById('map_canvas');
+     var x = document.getElementById('mapcontainer');
      switch(error.code) 
       {
        case error.PERMISSION_DENIED:
