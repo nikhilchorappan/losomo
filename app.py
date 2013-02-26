@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from flask import *
 from losodb import *
+from datetime import datetime
+import calendar
 
 app = Flask(__name__)
 
@@ -39,10 +41,12 @@ def tipreader(username):
 	if request.method == 'POST':
 		db = losoDB()
 		taglist = request.form['taglist'].rsplit(',')
+                currenttime = datetime.now()
+                unixcurrenttime = calendar.timegm(currenttime.timetuple())
                 
 		db.addtip( request.form['username'], request.form['body'],
 		   request.form['latitude'],request.form['longitude'],
-	           0, taglist)
+	           unixcurrenttime, taglist)
                 data = db.gethomedata()
 	        return render_template('homepage.html', name = username,table = data)     			
  	else:										    
