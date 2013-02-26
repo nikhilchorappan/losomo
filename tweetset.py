@@ -59,18 +59,28 @@ class tweetset:
         centroid["latitude"]/=len(self.tweettagdict)
         centroid["longitude"]/=len(self.tweettagdict)
         return centroid    
-                 
-        
-
+                  
+    def get_taglist(self):
+        '''This function examines the tagset of tweettagdict and returns the tag & count of it's occurence as a dict '''
+        tagdict = {}
+        for tweettag in self.tweettagdict:
+            for tag in tweettag['tagset']:
+                if tag in tagdict:
+                    tagdict[tag]+=1
+                else:
+                    tagdict[tag] = 1 
+        return tagdict      
+       
 
 def main():
    db = losoDB()
-   tweettagdict = db.getpage(8,76,5)
+   tweettagdict = db.getpage(8.54,76.89,1.5)
    T = tweetset(tweettagdict)
    print T.get_user("activity")
    print T.get_user("recent")   
    print T.get_user() 
    print T.get_centroid()
+   print T.get_taglist()
 
 if __name__ == "__main__":  
     main() 
