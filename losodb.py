@@ -28,7 +28,7 @@ class losoDB():
 			self.cursor.execute('''
 			CREATE TABLE user 
 				(  
-			    username text primary key,
+			        username text primary key,
 				password text not null,
 				photourl text not null,
 				email text not null,
@@ -60,7 +60,7 @@ class losoDB():
 			self.cursor.execute('''
 			CREATE TABLE tagtiprelation 
 				(  
-			    tagid integer,
+			        tagid integer,
 				tweetid integer,
 				tagtype text,
 				FOREIGN KEY(tagid) REFERENCES tag(tagid)
@@ -181,8 +181,68 @@ class losoDB():
   def gettaglist(self):	
     taglist = self.query('''select tagname from tag''')
     return taglist	   
-             
+
+
+  def getpage(self,clat,clong, width ):
+    ''' getpage function returns all tweets and its associated data
+        within an area. The area is called page which always will be in the shape of a square
+        clat and clong gives the latitude and longitude of the centroid of the square.
+        and width gives its side leangth. It returns the data as a list of dictionry
+        where each dictionary have following contents
+
+       tweetdict = { 'id' : type integer tweetid
+                     'body' : type string tweetbody
+                     'latitude' :  type real 
+                     'longitude' : type real
+                     'timestamp' : type integer
+                     'username'  : type text username who wrote that tweet
+                     'type' : type text ( "tip","notification ",etc)
+                     'tagset' : type set ( set of tags belongs to that tweet)}
+
+
+        ''' 
+
+    radius = width/2
+    tweettuplelist  = self.query('''select * from tweets 
+                               where latitude between {0} and {1} and 
+                               longitude between {2} 
+                               and {3} '''.format(clat-radius, clat+radius, clong-radius, clong+radius))
+    tweetdictlist = []
+    for tweettuple in tweettuplelist :
+       tagtuplelist = self.query('''select tagname from tag,tagtiprelation
+                                   where tag.tagid = tagtiprelation.tagid and 
+                                    tagtiprelation.tweetid = ?''',[tweettuple[0]] )
+       taglist = []
+       for tagtuple in tagtuplelist:
+          taglist.append(tagtuple[0])
+       tagset=set(taglist)
+       tweetdict = { 'id' : tweettuple[0],
+                     'body' : tweettuple[1],
+                     'latitude' : tweettuple[2],
+                     'longitude' : tweettuple[3],
+                     'timestamp' : tweettuple[4],
+                     'username' : tweettuple[5],
+                     'type' : tweettuple[6],
+                     'tagset' : tagset }
+ 
+       tweetdictlist.append(tweetdict)
+    return tweetdictlist              
 	   	     
 if __name__ == "__main__":
   db = losoDB()
-  print db.search(["bus"])
+  body = " this is for cheking"
+  timestamp = 0
+  username = "nikhil"
+  
+  values = (body,None,None,timestamp,username,"tip")
+  # print db.query(''' insert into tweets (  body , latitude, longitude ,
+  #  						timestamp , username , type)
+  #						values (?,?,?,?,?,?)''',values)
+  lats =  db.query(''' select longitude from tweets''')
+  #print lats
+  l = db.getpage(6,74,5)
+ # print l[0]
+  print l
+  #for l in lats:
+   # if l>0 :
+    #     print l[0].real
