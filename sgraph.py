@@ -19,7 +19,7 @@ class sgraph:
              newidx.append(seen[id])  
          return np.array(newidx)  
 
-     def getcluster(self):
+     def getcluster(self,n):
           G = np.diag([sum(Wi) for Wi in self.W])
           L = self.W - G
 
@@ -31,7 +31,7 @@ class sgraph:
 
           # second and third smallest eigenvalue + vector  
           Y = np.array([edict[k] for k in evals[1:3]]).transpose()  
-          res, idx = kmeans2(Y, 2, iter = 1000, minit='random')  
+          res, idx = kmeans2(Y, n,  iter = 1000, minit='random')  
           return self.__rename_clusters(idx) 
 
 

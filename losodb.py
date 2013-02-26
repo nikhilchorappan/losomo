@@ -240,9 +240,10 @@ if __name__ == "__main__":
   #						values (?,?,?,?,?,?)''',values)
   lats =  db.query(''' select longitude from tweets''')
   #print lats
-  l = db.getpage(6,74,5)
- # print l[0]
+  l = db.getpage(8,76,5)
   print l
+ # print l[0]
+
   #for l in lats:
    # if l>0 :
     #     print l[0].real
