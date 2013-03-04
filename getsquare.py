@@ -2,6 +2,18 @@ import urllib2
 import json
 
 
+
+def fromapi( latitude , longitude ,limit ):
+	data=urllib2.urlopen('''https://api.foursquare.com/v2/tips/search?ll={0},{1}&limit={2}&oauth_token=DJGP2ZUTS1DIPEEMQJ05KPAR0YK5RVXGJWLJIOEZORSPMUW0&v=20130227'''.format(latitude,longitude,limit))
+
+	data_obj = json.loads(data.read())
+	for data in data_obj["response"]["tips"]:
+   	   print data["text"]
+	return data_obj
+
+
+
+
 def forsquaredataextractor(data_obj):
     ''' This function organises data_obj given by foursquare API into two sets user & tweet. User set is a list of tuples (userid, firstName, lastName, gender, password, photourl, email) and tweet set is a list of tuples (body, latitude, longitude, timestamp, userid)'''
 
@@ -19,59 +31,48 @@ def forsquaredataextractor(data_obj):
 
 
 
-def getsquare(lat, lng):
-    
-    '''This function gets the data from foursquare API by considering a square of 800m side. We get data from this square by viewing the square as overlapping circles and calling foursquare API for the circles.Here we consider a side equivalent to 5 circles of radius 100m''' 
+def getsquare(latitude,longitude,width = 1000):
+        lateq200 = 0.0008983207989 *2
+	longeq200 = 0.0009071496   *2
+	newlat = latitude + 0.0008983207989
+        newlong = longitude + 0.0009071496
+        
+        n = (width/200) +1
+        superset_user = set([])
+        superset_tweets = set([])  
+	for i in range(n):
+	  for j in range(n):
+		data_obj = fromapi(latitude+(i*lateq200) , longitude +(j*longeq200) ,100)
+	  	userset,tweetset =  forsquaredataextractor(data_obj)
+                superset_user = superset_user | userset
+                superset_tweets = superset_tweets |tweetset
+	
+        for i in range(n-1):
+	  for j in range(n-1):
+		data_obj = fromapi(latitude+(i*lateq200) , longitude +(j*longeq200) ,100)
+	  	userset,tweetset =  forsquaredataextractor(data_obj)
+                superset_user = superset_user | userset
+                superset_tweets = superset_tweets |tweetset
+		
+        print superset_user 
+        print superset_tweets  
+        return superset_user , superset_tweets
 
-    newlat = lat + 0.0008983207989
-    newlng = lng + 0.0009071496
-    superset1 = set()
-    superset2 = set()
-    for i in range(5):
-        for j in range(5):
-            data=urllib2.urlopen('https://api.foursquare.com/v2/tips/search?ll='+ str(lat+i*0.00179836) +','+ str(lng+j*0.00179836) + '&limit='+str(100)+'&oauth_token=DJGP2ZUTS1DIPEEMQJ05KPAR0YK5RVXGJWLJIOEZORSPMUW0&v=20130227')
-            data_obj = json.loads(data.read())
-            set1,set2=forsquaredataextractor(data_obj)
-            superset1|=set1
-            superset2|=set2   
-    for i in range(4):
-        for j in range(4):
-            data=urllib2.urlopen('https://api.foursquare.com/v2/tips/search?ll='+ str(newlat+i*0.00179836) +','+ str(newlng+j*0.00179836) + '&limit='+str(100)+'&oauth_token=DJGP2ZUTS1DIPEEMQJ05KPAR0YK5RVXGJWLJIOEZORSPMUW0&v=20130227')
-            data_obj = json.loads(data.read())
-            set1,set2=forsquaredataextractor(data_obj)
-            superset1|=set1
-            superset2|=set2 
-    newlat+=0.0008983207989
-    newlng+=0.0009071496
-    for i in range(3):
-        for j in range(3):
-            data=urllib2.urlopen('https://api.foursquare.com/v2/tips/search?ll='+ str(newlat+i*0.00179836) +','+ str(newlng+j*0.00179836) + '&limit='+str(100)+'&oauth_token=DJGP2ZUTS1DIPEEMQJ05KPAR0YK5RVXGJWLJIOEZORSPMUW0&v=20130227')
-            data_obj = json.loads(data.read())
-            set1,set2=forsquaredataextractor(data_obj)
-            superset1|=set1
-            superset2|=set2 
-    newlat+=0.0008983207989
-    newlng+=lng + 0.0009071496
-    for i in range(2):
-        for j in range(2):
-            data=urllib2.urlopen('https://api.foursquare.com/v2/tips/search?ll='+ str(newlat+i*0.00179836) +','+ str(newlng+j*0.00179836) + '&limit='+str(100)+'&oauth_token=DJGP2ZUTS1DIPEEMQJ05KPAR0YK5RVXGJWLJIOEZORSPMUW0&v=20130227')
-            data_obj = json.loads(data.read())
-            set1,set2=forsquaredataextractor(data_obj)
-            superset1|=set1
-            superset2|=set2
-    '''
-    newlat+=0.0008983207989
-    newlng+=lng + 0.0009071496
-    data=urllib2.urlopen('https://api.foursquare.com/v2/tips/search?ll='+ str(newlat+0.00179836) +','+ str(newlng+0.00179836) + '&limit='+str(100)+'&oauth_token=DJGP2ZUTS1DIPEEMQJ05KPAR0YK5RVXGJWLJIOEZORSPMUW0&v=20130227')
-    data_obj = json.loads(data.read())
-    set1,set2=forsquaredataextractor(data_obj)
-    superset1|=set1
-    superset2|=set2
-    ''' 
-    print superset1
-    print superset2
+
+def feedtrivandram(lat = 8.82,lon =76.6, n = 35):
+     	
+      for i in range(n):
+	for j in range(n):
+	    userset,tweetset = getsquare(lat+(i*lateq1000),lon+(i*longeq1000),1000)
+            adduserset(userset)
+	    addtweetset(tweetset)
+
+
+
+        
+getsquare(8.54389,76.895,1000)
             
-getsquare(8.54389,76.895)            
+
 
 
     

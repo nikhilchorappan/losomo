@@ -28,6 +28,8 @@ class sgraph:
           evals, evcts = evals.real, evcts.real  
           edict = dict(zip(evals, evcts.transpose()))  
           evals = sorted(edict.keys())
+           
+          print evals
 
           # second and third smallest eigenvalue + vector  
           Y = np.array([edict[k] for k in evals[1:3]]).transpose()  
