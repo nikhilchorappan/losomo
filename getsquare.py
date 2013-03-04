@@ -1,3 +1,5 @@
+from newdb import *
+from topia.termextract import *
 import urllib2
 import json
 
@@ -60,8 +62,11 @@ def getsquare(latitude,longitude,width = 1000):
 
 
 def feedtrivandram(lat = 8.82,lon =76.6, n = 35):
-     	
-      for i in range(n):
+     lateq1000 = 0.0008983207989 *10
+     longeq1000 = 0.0009071496   *10
+     db = losoDB() 
+	
+     for i in range(n):
 	for j in range(n):
 	    userset,tweetset = getsquare(lat+(i*lateq1000),lon+(i*longeq1000),1000)
             adduserset(userset)
@@ -69,10 +74,22 @@ def feedtrivandram(lat = 8.82,lon =76.6, n = 35):
 
 
 
+db = losoDB()
+s1 = set()
+s1.add(("IISER admission available here",8.54,76.58,126879,127))
+db.addtip(s1)
+
+
+
+'''
         
-getsquare(8.54389,76.895,1000)
-            
-
-
-
-    
+#getsquare(8.54389,76.895,1000)
+s1 =set()
+s2 = set()            
+s1.add((127,"shakiya","sha","female","password","photo.jpg","s@gmail.com"))
+s2.add((127,"shakiya","sha","female","password","photo.jpg","s@gmail.com"))
+db = losoDB()
+db.adduser(list(s1)[0])
+db.adduser(list(s2)[0])
+print "successful"
+'''    
